@@ -5,21 +5,80 @@ const PracticeTimer = ({ recommendedMinutes, itemId, onTimeUpdate }) => {
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
+  const audioContextRef = useRef(null);
+  const hasPlayedBuzzerRef = useRef(false);
   const recommendedSeconds = recommendedMinutes * 60;
 
   useEffect(() => {
+    // Initialize audio context
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
     // Load saved time from localStorage
     const savedTime = localStorage.getItem(`timer_${itemId}_${new Date().toDateString()}`);
     if (savedTime) {
-      setSeconds(parseInt(savedTime));
+      const saved = parseInt(savedTime);
+      setSeconds(saved);
+      // Check if we've already played the buzzer for this session
+      hasPlayedBuzzerRef.current = saved >= recommendedSeconds;
     }
-  }, [itemId]);
+
+    return () => {
+      if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+        audioContextRef.current.close();
+      }
+    };
+  }, [itemId, recommendedSeconds]);
+
+  const playBuzzer = () => {
+    if (!audioContextRef.current) return;
+
+    // Resume audio context if suspended (for browser autoplay policies)
+    if (audioContextRef.current.state === 'suspended') {
+      audioContextRef.current.resume();
+    }
+
+    const currentTime = audioContextRef.current.currentTime;
+    const buzzerDuration = 3; // 3 seconds total
+    const beepDuration = 0.2; // Each beep lasts 0.2 seconds
+    const beepInterval = 0.3; // Time between beeps
+    const numberOfBeeps = Math.floor(buzzerDuration / beepInterval);
+
+    for (let i = 0; i < numberOfBeeps; i++) {
+      const oscillator = audioContextRef.current.createOscillator();
+      const gainNode = audioContextRef.current.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContextRef.current.destination);
+
+      oscillator.frequency.value = 880; // A5 note
+      oscillator.type = 'sine';
+
+      // Envelope for each beep
+      const beepStartTime = currentTime + (i * beepInterval);
+      gainNode.gain.setValueAtTime(0, beepStartTime);
+      gainNode.gain.linearRampToValueAtTime(0.3, beepStartTime + 0.01); // Quick fade in
+      gainNode.gain.setValueAtTime(0.3, beepStartTime + beepDuration - 0.01);
+      gainNode.gain.linearRampToValueAtTime(0, beepStartTime + beepDuration); // Quick fade out
+
+      oscillator.start(beepStartTime);
+      oscillator.stop(beepStartTime + beepDuration);
+    }
+  };
 
   useEffect(() => {
     if (isRunning) {
       intervalRef.current = setInterval(() => {
         setSeconds((prevSeconds) => {
           const newSeconds = prevSeconds + 1;
+
+          // Play buzzer when reaching recommended time
+          if (newSeconds === recommendedSeconds && !hasPlayedBuzzerRef.current) {
+            playBuzzer();
+            hasPlayedBuzzerRef.current = true;
+          }
+
           // Save to localStorage every 5 seconds
           if (newSeconds % 5 === 0) {
             localStorage.setItem(`timer_${itemId}_${new Date().toDateString()}`, newSeconds.toString());
@@ -41,7 +100,7 @@ const PracticeTimer = ({ recommendedMinutes, itemId, onTimeUpdate }) => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isRunning, itemId, onTimeUpdate]);
+  }, [isRunning, itemId, onTimeUpdate, recommendedSeconds]);
 
   const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60);
@@ -64,6 +123,7 @@ const PracticeTimer = ({ recommendedMinutes, itemId, onTimeUpdate }) => {
   const handleReset = () => {
     setIsRunning(false);
     setSeconds(0);
+    hasPlayedBuzzerRef.current = false; // Reset buzzer flag
     localStorage.removeItem(`timer_${itemId}_${new Date().toDateString()}`);
     if (onTimeUpdate) {
       onTimeUpdate(itemId, 0);
@@ -71,6 +131,10 @@ const PracticeTimer = ({ recommendedMinutes, itemId, onTimeUpdate }) => {
   };
 
   const toggleTimer = () => {
+    // Resume audio context when starting timer (for browser autoplay policies)
+    if (!isRunning && audioContextRef.current && audioContextRef.current.state === 'suspended') {
+      audioContextRef.current.resume();
+    }
     setIsRunning(!isRunning);
   };
 

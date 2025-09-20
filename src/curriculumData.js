@@ -3,369 +3,366 @@
 
 export const weeklyPractice = {
   1: {
-    title: "Week 1: Build Tone & Routine",
-    focus: "Develop consistent daily habit, tone quality, and basic scales",
-    milestone: "Play C major one octave smoothly and sight-read simple rhythms",
+    title: "Week 1: C Major & Foundation",
+    focus: "Build tone quality, establish routine, learn C Major (no sharps/flats)",
+    milestone: "Play C Major scale one octave with clean fingerings and steady tone",
     weeklyGoal: "Complete 6 out of 7 days this week",
     items: [
-      {
-        id: 'long-tones',
-        label: 'Long tones (focus on breath control)',
-        time: '10 min',
-        points: 25,
-        tips: ['Start with 8 counts, gradually increase', 'Keep shoulders relaxed', 'Listen for steady tone'],
-        tempoRange: { min: 60, max: 80, suggested: 60 }
-      },
-      {
-        id: 'c-major',
-        label: 'C major scale (one octave)',
-        time: '10 min',
-        points: 25,
-        tips: ['Practice hands separately first', 'Use correct fingerings', 'Keep tempo steady'],
-        tempoRange: { min: 60, max: 100, suggested: 80 }
-      },
-      {
-        id: 'simple-pieces',
-        label: 'Simple pieces (2-4 measures at a time)',
-        time: '20 min',
-        points: 35,
-        tips: ['Play slowly first', 'Count aloud', 'Focus on note accuracy over speed'],
-        isMainFocus: true
-      },
-      {
-        id: 'sight-reading',
-        label: 'Easy sight-reading (never stop for mistakes)',
-        time: '5 min',
-        points: 15,
-        tips: ['Keep eyes on music', 'Don\'t go back to fix mistakes', 'Start very slowly'],
-        quality: 'accuracy'
-      }
+      { id: 'long-tones', label: 'Long tones (Low B to Middle D)', time: '3 min', points: 10 },
+      { id: 'c-major', label: 'C Major scale - one octave', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'posture-breathing', label: 'Posture and breathing exercises', time: '5 min', points: 10 },
+      { id: 'basic-articulation', label: 'Basic articulation (Ta-Ta-Ta)', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   2: {
-    title: "Week 2: Add Rhythm & Expand Range",
-    focus: "Improve rhythm skills and play confidently in time",
-    milestone: "Play simple pieces in C and G major at steady tempo",
+    title: "Week 2: G Major Introduction",
+    focus: "Learn G Major scale (1 sharp - F♯), continue tone development",
+    milestone: "Play G Major scale one octave smoothly, maintain C Major proficiency",
     weeklyGoal: "Practice with metronome at least 5 days",
     items: [
-      { id: 'dynamic-long-tones', label: 'Long tones with crescendo-decrescendo', time: '8 min', points: 20, tempoRange: { min: 60, max: 80, suggested: 60 } },
-      { id: 'c-g-scales', label: 'C major (two octaves) + G major (one octave)', time: '12 min', points: 25, tempoRange: { min: 80, max: 120, suggested: 100 } },
-      { id: 'phrase-pieces', label: 'Break pieces into phrases, then connect', time: '15 min', points: 30, isMainFocus: true },
-      { id: 'rhythm-work', label: 'Clap rhythms, use metronome for sections', time: '5 min', points: 15 },
-      { id: 'harder-sight-reading', label: 'Slightly harder sight-reading', time: '5 min', points: 10 }
+      { id: 'long-tones', label: 'Long tones with dynamics', time: '3 min', points: 10 },
+      { id: 'g-major', label: 'G Major scale - one octave (F♯)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'c-major-review', label: 'C Major scale review', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'rhythm-patterns', label: 'Rhythm patterns with metronome', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   3: {
-    title: "Week 3: Improve Finger Dexterity & Fluency",
-    focus: "Build smoother transitions and read longer pieces",
-    milestone: "Play three major scales comfortably, confident sight-reading",
-    weeklyGoal: "Master all three scales (C, G, F) by week's end",
+    title: "Week 3: D Major & Dexterity",
+    focus: "Learn D Major scale (2 sharps - F♯, C♯), improve finger coordination",
+    milestone: "Play D Major one octave cleanly, maintain previous scales",
+    weeklyGoal: "Master D Major scale with smooth transitions",
     items: [
-      { id: 'three-scales', label: 'Rotate C, G, and F major scales daily', time: '12 min', points: 30, tempoRange: { min: 80, max: 120, suggested: 100 } },
-      { id: 'finger-patterns', label: 'Finger pattern exercises with metronome', time: '8 min', points: 20, tempoRange: { min: 60, max: 100, suggested: 80 } },
-      { id: 'whole-piece', label: 'Play through whole piece once (even if slow)', time: '15 min', points: 30, isMainFocus: true },
-      { id: 'lines-sight-reading', label: 'Sight-read 4-5 short lines, steady tempo', time: '10 min', points: 20 }
+      { id: 'long-tones', label: 'Long tones (extended range)', time: '3 min', points: 10 },
+      { id: 'd-major', label: 'D Major scale - one octave (F♯, C♯)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'scale-review', label: 'Review C and G Major scales', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'finger-patterns', label: 'Finger dexterity exercises', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   4: {
-    title: "Week 4: Dynamics & Expression",
-    focus: "Add musical expression and dynamic contrast",
-    milestone: "Play pieces with clear dynamic changes (p, mf, f)",
-    weeklyGoal: "Record yourself playing with dynamics 3 times",
+    title: "Week 4: F Major & Expression",
+    focus: "Learn F Major scale (1 flat - B♭), develop dynamic control",
+    milestone: "Play F Major smoothly, add dynamics to all scales",
+    weeklyGoal: "Master F Major and play all 4 scales with dynamics",
     items: [
-      { id: 'dynamic-scales', label: 'Scales with dynamic variations', time: '10 min', points: 25, tempoRange: { min: 80, max: 100, suggested: 90 } },
-      { id: 'expressive-tones', label: 'Long tones with vibrato attempts', time: '8 min', points: 20 },
-      { id: 'dynamic-pieces', label: 'Focus on dynamic markings in pieces', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'articulation', label: 'Tonguing exercises (ta, da, double)', time: '7 min', points: 20 }
+      { id: 'long-tones', label: 'Long tones with vibrato attempts', time: '3 min', points: 10 },
+      { id: 'f-major', label: 'F Major scale - one octave (B♭)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'dynamic-practice', label: 'Dynamic exercises (pp to ff)', time: '5 min', points: 10 },
+      { id: 'articulation', label: 'Articulation patterns', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   5: {
-    title: "Week 5: Articulation Mastery",
-    focus: "Develop clear tonguing and varied articulations",
-    milestone: "Play staccato and legato passages distinctly",
-    weeklyGoal: "Master 3 different articulation patterns",
+    title: "Week 5: B♭ Major & Articulation",
+    focus: "Learn B♭ Major scale (2 flats - B♭, E♭), develop articulation variety",
+    milestone: "Play B♭ Major one octave, master thumb B♭ key usage",
+    weeklyGoal: "Perfect B♭ Major fingerings and articulation patterns",
     items: [
-      { id: 'articulation-scales', label: 'Scales with different articulations', time: '12 min', points: 30, tempoRange: { min: 80, max: 120, suggested: 100 } },
-      { id: 'tongue-exercises', label: 'Single and double tonguing patterns', time: '10 min', points: 25 },
-      { id: 'articulated-pieces', label: 'Pieces emphasizing articulation variety', time: '18 min', points: 30, isMainFocus: true },
-      { id: 'slur-practice', label: 'Slur exercises across intervals', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (focus on B♭)', time: '3 min', points: 10 },
+      { id: 'bb-major', label: 'B♭ Major scale - one octave (B♭, E♭)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'scale-review', label: 'Review all previous scales', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'articulation-patterns', label: 'Staccato and legato patterns', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   6: {
-    title: "Week 6: Minor Scales Introduction",
-    focus: "Begin minor scales and develop emotional expression",
-    milestone: "Play A minor and D minor scales fluently",
-    weeklyGoal: "Practice minor scales daily with emotion",
+    title: "Week 6: A Major Exploration",
+    focus: "Learn A Major scale (3 sharps - F♯, C♯, G♯), build finger agility",
+    milestone: "Play A Major smoothly, navigate all sharp key signatures",
+    weeklyGoal: "Master A Major and perform scale sequence from C to A",
     items: [
-      { id: 'minor-scales', label: 'A minor and D minor scales (natural)', time: '12 min', points: 30, tempoRange: { min: 70, max: 100, suggested: 85 } },
-      { id: 'chromatic-runs', label: 'Chromatic scale segments', time: '8 min', points: 20, tempoRange: { min: 60, max: 90, suggested: 75 } },
-      { id: 'minor-pieces', label: 'Pieces in minor keys', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'expression-study', label: 'Practice conveying emotions', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (upper register)', time: '3 min', points: 10 },
+      { id: 'a-major', label: 'A Major scale - one octave (F♯, C♯, G♯)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'sharp-scales-review', label: 'Review G and D Major', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'scale-sequence', label: 'All 6 scales in sequence', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   7: {
-    title: "Week 7: Rhythm Complexity",
-    focus: "Master syncopation and complex rhythmic patterns",
-    milestone: "Play pieces with dotted rhythms and syncopation accurately",
-    weeklyGoal: "Clap and play 5 different rhythm patterns",
+    title: "Week 7: E♭ Major & Level 1 Complete",
+    focus: "Learn E♭ Major (3 flats - B♭, E♭, A♭), master all Level 1 scales",
+    milestone: "Complete all 7 one-octave major scales with confidence",
+    weeklyGoal: "Perform all Level 1 scales from memory with good tone",
     items: [
-      { id: 'rhythm-patterns', label: 'Complex rhythm exercises', time: '10 min', points: 25 },
-      { id: 'syncopation', label: 'Syncopated scale patterns', time: '10 min', points: 25, tempoRange: { min: 70, max: 100, suggested: 85 } },
-      { id: 'rhythmic-pieces', label: 'Jazz or Latin-influenced pieces', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'subdivision', label: 'Practice subdividing beats', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (all registers)', time: '3 min', points: 10 },
+      { id: 'eb-major', label: 'E♭ Major scale - one octave (B♭, E♭, A♭)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'flat-scales-review', label: 'Review F and B♭ Major', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'all-scales-test', label: 'All 7 scales consecutively', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   8: {
-    title: "Week 8: Extended Range",
-    focus: "Expand to high and low register comfortably",
-    milestone: "Play two-octave scales in 5 keys",
-    weeklyGoal: "Hit high E and low C consistently",
+    title: "Week 8: C Major - 3 Octaves",
+    focus: "Expand C Major to full 3-octave range (C4 to C7)",
+    milestone: "Play C Major across entire flute range with even tone",
+    weeklyGoal: "Master register transitions and breath control",
     items: [
-      { id: 'range-exercises', label: 'Octave leaps and register changes', time: '12 min', points: 30 },
-      { id: 'two-octave-scales', label: 'Five major scales, two octaves', time: '10 min', points: 25, tempoRange: { min: 80, max: 120, suggested: 100 } },
-      { id: 'range-pieces', label: 'Pieces utilizing full range', time: '18 min', points: 30, isMainFocus: true },
-      { id: 'harmonics', label: 'Practice overtones and harmonics', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (high register focus)', time: '3 min', points: 10 },
+      { id: 'c-major-3oct', label: 'C Major - 3 octaves (C4 to C7)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'register-exercises', label: 'Octave leaps and transitions', time: '5 min', points: 10 },
+      { id: 'scale-patterns', label: 'C Major arpeggios', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   9: {
-    title: "Week 9: Ornamentation Basics",
-    focus: "Learn trills, grace notes, and turns",
-    milestone: "Execute basic ornaments in context",
-    weeklyGoal: "Add ornaments to 3 familiar pieces",
+    title: "Week 9: G Major - 2 Octaves",
+    focus: "Expand G Major to 2 octaves (G4 to G6)",
+    milestone: "Play G Major 2 octaves with clean F♯ fingerings throughout",
+    weeklyGoal: "Achieve smooth transitions between octaves",
     items: [
-      { id: 'trill-practice', label: 'Trill exercises on each note', time: '10 min', points: 25 },
-      { id: 'grace-notes', label: 'Grace notes and appoggiaturas', time: '8 min', points: 20 },
-      { id: 'baroque-pieces', label: 'Baroque pieces with ornaments', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'mordent-turn', label: 'Mordents and turns practice', time: '7 min', points: 20 }
+      { id: 'long-tones', label: 'Long tones (G focus)', time: '3 min', points: 10 },
+      { id: 'g-major-2oct', label: 'G Major - 2 octaves (G4 to G6)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'c-major-review', label: 'C Major 3 octaves review', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'g-major-arpeggios', label: 'G Major arpeggios and thirds', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   10: {
-    title: "Week 10: Ensemble Skills",
-    focus: "Develop listening and blending abilities",
-    milestone: "Play duets maintaining independent part",
-    weeklyGoal: "Practice with recordings or play-alongs daily",
+    title: "Week 10: D Major - 2 Octaves",
+    focus: "Expand D Major to 2 octaves (D4 to D6)",
+    milestone: "Master D Major with consistent tone across registers",
+    weeklyGoal: "Perfect high D6 with stable embouchure",
     items: [
-      { id: 'duet-practice', label: 'Play duets (with recording)', time: '15 min', points: 30, isMainFocus: true },
-      { id: 'harmony-scales', label: 'Scales in thirds and sixths', time: '10 min', points: 25, tempoRange: { min: 70, max: 100, suggested: 85 } },
-      { id: 'listening-exercise', label: 'Match pitch and tone with recordings', time: '10 min', points: 25 },
-      { id: 'counting-rests', label: 'Practice counting long rests', time: '5 min', points: 20 }
+      { id: 'long-tones', label: 'Long tones (D6 focus)', time: '3 min', points: 10 },
+      { id: 'd-major-2oct', label: 'D Major - 2 octaves (D4 to D6)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'scale-sequence', label: 'C, G, D major sequence', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'd-major-patterns', label: 'D Major scale patterns', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   11: {
-    title: "Week 11: Memorization Skills",
-    focus: "Develop memory through pattern recognition",
-    milestone: "Memorize and perform a complete piece",
-    weeklyGoal: "Practice from memory 20 minutes daily",
+    title: "Week 11: F Major - 2 Octaves",
+    focus: "Expand F Major to 2 octaves (F4 to F6)",
+    milestone: "Play F Major with consistent B♭ fingering across octaves",
+    weeklyGoal: "Master thumb B♭ in all registers",
     items: [
-      { id: 'memorize-scales', label: 'Play scales from memory', time: '8 min', points: 20 },
-      { id: 'phrase-memory', label: 'Memorize 4-bar phrases', time: '12 min', points: 30 },
-      { id: 'full-memorization', label: 'Work on memorizing complete piece', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'mental-practice', label: 'Practice without flute (mental)', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (B♭ focus)', time: '3 min', points: 10 },
+      { id: 'f-major-2oct', label: 'F Major - 2 octaves (F4 to F6)', time: '5 min', points: 10, tempoRange: { min: 60, max: 100, suggested: 80 } },
+      { id: 'bb-technique', label: 'B♭ fingering exercises', time: '5 min', points: 10 },
+      { id: 'f-major-arpeggios', label: 'F Major arpeggios', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   12: {
-    title: "Week 12: Performance Preparation",
-    focus: "Build confidence for public performance",
-    milestone: "Perform mini-recital for family/friends",
-    weeklyGoal: "Do 3 mock performances",
+    title: "Week 12: B♭ Major (2 octaves)",
+    focus: "Master B♭ Major scale across two octaves",
+    milestone: "Play B♭ Major scale fluently at 120 bpm",
+    weeklyGoal: "Comfortable with 2-octave B♭ Major patterns",
     items: [
-      { id: 'performance-run', label: 'Complete run-throughs', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'stage-presence', label: 'Practice bowing and stage etiquette', time: '5 min', points: 15 },
-      { id: 'nerves-management', label: 'Breathing exercises for nerves', time: '10 min', points: 25 },
-      { id: 'recovery-practice', label: 'Practice recovering from mistakes', time: '10 min', points: 25 }
+      { id: 'long-tones', label: 'Long tones (E♭ focus)', time: '3 min', points: 10 },
+      { id: 'bb-major-scale', label: 'B♭ Major scale - 2 octaves', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'bb-arpeggios', label: 'B♭ Major arpeggios', time: '5 min', points: 10 },
+      { id: 'performance-prep', label: 'Performance preparation', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   13: {
-    title: "Week 13: Technical Precision",
-    focus: "Refine finger coordination and timing",
-    milestone: "Play technical passages at performance tempo",
-    weeklyGoal: "Increase tempo on 3 technical passages",
+    title: "Week 13: A Major (2 octaves)",
+    focus: "Develop fluency in A Major scale",
+    milestone: "Master A Major with all sharps",
+    weeklyGoal: "Smooth transitions in A Major patterns",
     items: [
-      { id: 'finger-independence', label: 'Finger independence exercises', time: '10 min', points: 25 },
-      { id: 'technical-patterns', label: 'Arpeggios and broken chords', time: '12 min', points: 30, tempoRange: { min: 80, max: 140, suggested: 110 } },
-      { id: 'etudes', label: 'Technical etudes', time: '18 min', points: 30, isMainFocus: true },
-      { id: 'slow-practice', label: 'Ultra-slow precision work', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (G♯ focus)', time: '3 min', points: 10 },
+      { id: 'a-major-scale', label: 'A Major scale - 2 octaves', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'a-major-thirds', label: 'A Major in thirds', time: '5 min', points: 10 },
+      { id: 'technical-precision', label: 'Technical precision work', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   14: {
-    title: "Week 14: Tone Color Exploration",
-    focus: "Develop different tone colors and timbres",
-    milestone: "Demonstrate 3 distinct tone colors",
-    weeklyGoal: "Experiment with embouchure daily",
+    title: "Week 14: E♭ Major (2 octaves) - Level 2 Complete",
+    focus: "Complete Level 2 with E♭ Major mastery",
+    milestone: "Confidently play all Level 2 scales",
+    weeklyGoal: "Review all major scales learned",
     items: [
-      { id: 'tone-colors', label: 'Practice bright, dark, hollow tones', time: '12 min', points: 30 },
-      { id: 'register-matching', label: 'Match tone across registers', time: '8 min', points: 20 },
-      { id: 'character-pieces', label: 'Pieces requiring tone variety', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'whistle-tones', label: 'Extended techniques exploration', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (A♭ focus)', time: '3 min', points: 10 },
+      { id: 'eb-major-scale', label: 'E♭ Major scale - 2 octaves', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'eb-major-patterns', label: 'E♭ Major patterns', time: '5 min', points: 10 },
+      { id: 'all-majors-review', label: 'Review all major scales', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   15: {
-    title: "Week 15: Sight-Reading Focus",
-    focus: "Rapid reading and pattern recognition",
-    milestone: "Sight-read grade-appropriate pieces fluently",
-    weeklyGoal: "Sight-read 20 new excerpts",
+    title: "Week 15: A Minor Natural (Level 3 Begins)",
+    focus: "Introduction to natural minor scales",
+    milestone: "Master A minor natural scale",
+    weeklyGoal: "Understand minor scale structure",
     items: [
-      { id: 'rhythm-reading', label: 'Rhythm-only sight-reading', time: '8 min', points: 20 },
-      { id: 'melodic-reading', label: 'Melodic sight-reading', time: '12 min', points: 30 },
-      { id: 'ensemble-reading', label: 'Sight-read duet parts', time: '15 min', points: 30, isMainFocus: true },
-      { id: 'transposition', label: 'Simple transposition exercises', time: '10 min', points: 20 }
+      { id: 'long-tones', label: 'Long tones (minor tonality)', time: '3 min', points: 10 },
+      { id: 'a-minor-natural', label: 'A minor natural scale', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'a-minor-arpeggios', label: 'A minor arpeggios', time: '5 min', points: 10 },
+      { id: 'sight-reading', label: 'Sight-reading in minor keys', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   16: {
-    title: "Week 16: Phrasing Mastery",
-    focus: "Shape musical lines with breath and dynamics",
-    milestone: "Perform pieces with professional phrasing",
-    weeklyGoal: "Record and analyze your phrasing daily",
+    title: "Week 16: E Minor Natural",
+    focus: "Develop E minor scale fluency",
+    milestone: "Play E minor with expression",
+    weeklyGoal: "Master E minor patterns",
     items: [
-      { id: 'phrase-breathing', label: 'Practice breathing between phrases', time: '10 min', points: 25 },
-      { id: 'phrase-shapes', label: 'Create phrase shapes in scales', time: '8 min', points: 20 },
-      { id: 'lyrical-pieces', label: 'Lyrical pieces with long phrases', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'rubato', label: 'Practice tempo flexibility', time: '7 min', points: 20 }
+      { id: 'long-tones', label: 'Long tones (E minor focus)', time: '3 min', points: 10 },
+      { id: 'e-minor-natural', label: 'E minor natural scale', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'e-minor-patterns', label: 'E minor scale patterns', time: '5 min', points: 10 },
+      { id: 'phrasing-minor', label: 'Phrasing in minor keys', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   17: {
-    title: "Week 17: Advanced Articulation",
-    focus: "Master triple tonguing and flutter tongue",
-    milestone: "Execute advanced articulations cleanly",
-    weeklyGoal: "Practice triple tonguing patterns daily",
+    title: "Week 17: D Minor Natural",
+    focus: "Master D minor scale",
+    milestone: "Fluent D minor execution",
+    weeklyGoal: "D minor in various articulations",
     items: [
-      { id: 'triple-tongue', label: 'Triple tonguing exercises', time: '12 min', points: 30 },
-      { id: 'flutter-tongue', label: 'Flutter tonguing development', time: '8 min', points: 20 },
-      { id: 'mixed-articulation', label: 'Pieces with varied articulations', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'tongue-flexibility', label: 'Rapid articulation changes', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (D minor focus)', time: '3 min', points: 10 },
+      { id: 'd-minor-natural', label: 'D minor natural scale', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'd-minor-arpeggios', label: 'D minor arpeggios', time: '5 min', points: 10 },
+      { id: 'articulation-minor', label: 'Advanced articulation', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   18: {
-    title: "Week 18: Vibrato Development",
-    focus: "Cultivate controlled, musical vibrato",
-    milestone: "Apply appropriate vibrato in performance",
-    weeklyGoal: "Practice vibrato exercises 15 minutes daily",
+    title: "Week 18: G Minor Natural",
+    focus: "G minor scale development",
+    milestone: "Master G minor patterns",
+    weeklyGoal: "G minor with vibrato application",
     items: [
-      { id: 'vibrato-pulses', label: 'Measured vibrato pulses', time: '10 min', points: 25, tempoRange: { min: 60, max: 120, suggested: 80 } },
-      { id: 'vibrato-long-tones', label: 'Long tones with vibrato', time: '10 min', points: 25 },
-      { id: 'vibrato-pieces', label: 'Apply vibrato musically in pieces', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'vibrato-speeds', label: 'Vary vibrato speed and width', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (G minor focus)', time: '3 min', points: 10 },
+      { id: 'g-minor-natural', label: 'G minor natural scale', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'g-minor-patterns', label: 'G minor scale patterns', time: '5 min', points: 10 },
+      { id: 'vibrato-minor', label: 'Vibrato in minor scales', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   19: {
-    title: "Week 19: Contemporary Techniques",
-    focus: "Explore modern flute techniques",
-    milestone: "Perform piece with extended techniques",
-    weeklyGoal: "Master 3 contemporary techniques",
+    title: "Week 19: C Minor Natural",
+    focus: "C minor scale mastery",
+    milestone: "Fluent C minor execution",
+    weeklyGoal: "C minor with contemporary techniques",
     items: [
-      { id: 'multiphonics', label: 'Multiphonics exploration', time: '8 min', points: 20 },
-      { id: 'key-clicks', label: 'Key clicks and percussive sounds', time: '7 min', points: 20 },
-      { id: 'contemporary-piece', label: 'Modern/contemporary pieces', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'pitch-bends', label: 'Pitch bending and glissandi', time: '10 min', points: 25 }
+      { id: 'long-tones', label: 'Long tones (C minor focus)', time: '3 min', points: 10 },
+      { id: 'c-minor-natural', label: 'C minor natural scale', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'c-minor-arpeggios', label: 'C minor arpeggios', time: '5 min', points: 10 },
+      { id: 'contemporary-minor', label: 'Contemporary techniques', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   20: {
-    title: "Week 20: Musical Interpretation",
-    focus: "Develop personal artistic voice",
-    milestone: "Create unique interpretation of standard piece",
-    weeklyGoal: "Study 3 different recordings of same piece",
+    title: "Week 20: F Minor Natural",
+    focus: "F minor scale development",
+    milestone: "Master F minor patterns",
+    weeklyGoal: "F minor with musical interpretation",
     items: [
-      { id: 'style-study', label: 'Compare different interpretations', time: '10 min', points: 25 },
-      { id: 'personal-interpretation', label: 'Develop your interpretation', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'period-practice', label: 'Practice period-appropriate style', time: '10 min', points: 25 },
-      { id: 'expression-freedom', label: 'Improvise expressively', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (F minor focus)', time: '3 min', points: 10 },
+      { id: 'f-minor-natural', label: 'F minor natural scale', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'f-minor-patterns', label: 'F minor scale patterns', time: '5 min', points: 10 },
+      { id: 'interpretation-minor', label: 'Musical interpretation', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   21: {
-    title: "Week 21: Endurance Building",
-    focus: "Build stamina for longer performances",
-    milestone: "Play 30 minutes without fatigue",
-    weeklyGoal: "Increase practice sessions by 10 minutes",
+    title: "Week 21: B Minor Natural - Level 3 Complete",
+    focus: "Complete natural minor scales",
+    milestone: "Master all natural minor scales",
+    weeklyGoal: "Review all minor scales with endurance",
     items: [
-      { id: 'breathing-stamina', label: 'Extended breathing exercises', time: '12 min', points: 30 },
-      { id: 'long-pieces', label: 'Play through longer works', time: '25 min', points: 35, isMainFocus: true },
-      { id: 'embouchure-strength', label: 'Embouchure strengthening', time: '8 min', points: 20 },
-      { id: 'active-rest', label: 'Practice active rest techniques', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (B minor focus)', time: '3 min', points: 10 },
+      { id: 'b-minor-natural', label: 'B minor natural scale', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'all-minors-review', label: 'Review all natural minors', time: '5 min', points: 10 },
+      { id: 'endurance-scales', label: 'Endurance scale practice', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   22: {
-    title: "Week 22: Jazz & Improvisation",
-    focus: "Explore jazz styles and improvisation",
-    milestone: "Improvise over chord progressions",
-    weeklyGoal: "Learn 3 jazz standards",
+    title: "Week 22: A Harmonic Minor (Level 4 Begins)",
+    focus: "Introduction to harmonic minor scales",
+    milestone: "Master A harmonic minor",
+    weeklyGoal: "Understand harmonic minor structure",
     items: [
-      { id: 'jazz-scales', label: 'Blues and jazz scales', time: '10 min', points: 25, tempoRange: { min: 80, max: 140, suggested: 110 } },
-      { id: 'chord-patterns', label: 'Chord tone practice', time: '10 min', points: 25 },
-      { id: 'jazz-standards', label: 'Learn jazz standards', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'improvisation', label: 'Free improvisation', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (harmonic intervals)', time: '3 min', points: 10 },
+      { id: 'a-harmonic-minor', label: 'A harmonic minor scale', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'harmonic-patterns', label: 'Harmonic minor patterns', time: '5 min', points: 10 },
+      { id: 'jazz-minor-modes', label: 'Jazz applications', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   23: {
-    title: "Week 23: Chamber Music Skills",
-    focus: "Advanced ensemble and communication",
-    milestone: "Lead a chamber ensemble piece",
-    weeklyGoal: "Practice chamber music daily",
+    title: "Week 23: D & E Harmonic Minor",
+    focus: "Master D and E harmonic minor scales",
+    milestone: "Fluent in multiple harmonic minors",
+    weeklyGoal: "Chamber music with harmonic minors",
     items: [
-      { id: 'cue-giving', label: 'Practice giving cues', time: '5 min', points: 15 },
-      { id: 'intonation-matching', label: 'Intonation with piano/others', time: '10 min', points: 25 },
-      { id: 'chamber-repertoire', label: 'Chamber music repertoire', time: '25 min', points: 40, isMainFocus: true },
-      { id: 'score-study', label: 'Study full scores', time: '5 min', points: 20 }
+      { id: 'long-tones', label: 'Long tones (raised 7th focus)', time: '3 min', points: 10 },
+      { id: 'd-e-harmonic-minor', label: 'D & E harmonic minor scales', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'harmonic-arpeggios', label: 'Harmonic minor arpeggios', time: '5 min', points: 10 },
+      { id: 'intonation-practice', label: 'Intonation practice', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   24: {
-    title: "Week 24: Competition Preparation",
-    focus: "Prepare for auditions and competitions",
-    milestone: "Perform competition-level repertoire",
-    weeklyGoal: "Do daily mock auditions",
+    title: "Week 24: A Melodic Minor",
+    focus: "Introduction to melodic minor scales",
+    milestone: "Master A melodic minor",
+    weeklyGoal: "Competition prep with melodic minor",
     items: [
-      { id: 'scales-all-keys', label: 'All major and minor scales', time: '15 min', points: 30, tempoRange: { min: 100, max: 144, suggested: 120 } },
-      { id: 'orchestral-excerpts', label: 'Standard orchestral excerpts', time: '15 min', points: 30 },
-      { id: 'competition-pieces', label: 'Competition repertoire', time: '15 min', points: 30, isMainFocus: true },
-      { id: 'mental-preparation', label: 'Visualization and mental prep', time: '5 min', points: 10 }
+      { id: 'long-tones', label: 'Long tones (melodic focus)', time: '3 min', points: 10 },
+      { id: 'a-melodic-minor', label: 'A melodic minor scale', time: '5 min', points: 10, tempoRange: { min: 70, max: 110, suggested: 90 } },
+      { id: 'melodic-patterns', label: 'Melodic minor patterns', time: '5 min', points: 10 },
+      { id: 'all-scales-review', label: 'Review all scales learned', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   25: {
-    title: "Week 25: Recording Project",
-    focus: "Create professional-quality recordings",
-    milestone: "Record 3-piece demo",
-    weeklyGoal: "Record daily and self-evaluate",
+    title: "Week 25: Chromatic Scale (Level 5)",
+    focus: "Master the chromatic scale",
+    milestone: "Play chromatic scale fluently",
+    weeklyGoal: "Chromatic proficiency for recording",
     items: [
-      { id: 'recording-prep', label: 'Prepare pieces for recording', time: '20 min', points: 35, isMainFocus: true },
-      { id: 'microphone-technique', label: 'Practice recording technique', time: '10 min', points: 25 },
-      { id: 'take-management', label: 'Multiple takes and editing', time: '10 min', points: 25 },
-      { id: 'critical-listening', label: 'Analyze recordings critically', time: '5 min', points: 15 }
+      { id: 'long-tones', label: 'Long tones (chromatic)', time: '3 min', points: 10 },
+      { id: 'chromatic-scale', label: 'Chromatic scale - full range', time: '5 min', points: 10, tempoRange: { min: 80, max: 120, suggested: 100 } },
+      { id: 'chromatic-patterns', label: 'Chromatic patterns', time: '5 min', points: 10 },
+      { id: 'recording-prep', label: 'Recording preparation', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Repertoire practice', time: '45 min', points: 60, isMainFocus: true }
     ]
   },
 
   26: {
-    title: "Week 26: Final Recital & Reflection",
-    focus: "Culminate learning with full recital",
-    milestone: "Perform 30-minute recital program",
-    weeklyGoal: "Celebrate your 6-month journey!",
+    title: "Week 26: Final Mastery & Celebration",
+    focus: "Complete scale mastery and celebrate progress",
+    milestone: "Demonstrate all 5 levels of scales",
+    weeklyGoal: "Celebrate your complete scale journey!",
     items: [
-      { id: 'recital-program', label: 'Full recital run-through', time: '30 min', points: 40, isMainFocus: true },
-      { id: 'program-notes', label: 'Write program notes', time: '10 min', points: 20 },
-      { id: 'technical-review', label: 'Review all scales and exercises', time: '10 min', points: 20 },
-      { id: 'reflection', label: 'Journal about your progress', time: '10 min', points: 20 }
+      { id: 'long-tones', label: 'Long tones (celebration)', time: '3 min', points: 10 },
+      { id: 'all-scales-mastery', label: 'Perform all scales learned', time: '5 min', points: 10 },
+      { id: 'scale-medley', label: 'Create scale medley', time: '5 min', points: 10 },
+      { id: 'reflection', label: 'Reflect on journey', time: '5 min', points: 10 },
+      { id: 'repertoire', label: 'Final repertoire showcase', time: '45 min', points: 60, isMainFocus: true }
     ]
   }
 };
