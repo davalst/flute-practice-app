@@ -115,7 +115,14 @@ const FingeringChart = ({ isOpen, onClose }) => {
     );
   };
 
-  if (!isOpen) return null;
+  console.log('FingeringChart component - isOpen:', isOpen);
+
+  if (!isOpen) {
+    console.log('FingeringChart not rendering because isOpen is false');
+    return null;
+  }
+
+  console.log('FingeringChart rendering modal');
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
@@ -123,7 +130,10 @@ const FingeringChart = ({ isOpen, onClose }) => {
         {/* Backdrop */}
         <div
           className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-          onClick={onClose}
+          onClick={() => {
+            console.log('Backdrop clicked, closing modal');
+            onClose();
+          }}
         />
 
         {/* Modal */}
@@ -135,7 +145,10 @@ const FingeringChart = ({ isOpen, onClose }) => {
               Flute Fingering Chart
             </h2>
             <button
-              onClick={onClose}
+              onClick={() => {
+                console.log('Close button clicked');
+                onClose();
+              }}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
               <X className="w-5 h-5" />

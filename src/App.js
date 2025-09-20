@@ -38,6 +38,11 @@ const FluteChecklistApp = () => {
   const [showTips, setShowTips] = useState(false);
   const [showFingeringChart, setShowFingeringChart] = useState(false);
 
+  // Debug the state
+  useEffect(() => {
+    console.log('Fingering chart open state:', showFingeringChart);
+  }, [showFingeringChart]);
+
   // Save to localStorage whenever state changes
   useEffect(() => {
     localStorage.setItem('fluteApp_startDate', startDate.toISOString());
@@ -356,7 +361,10 @@ const FluteChecklistApp = () => {
           <CompactMetronome />
           <div className="flex items-center justify-center">
             <button
-              onClick={() => setShowFingeringChart(true)}
+              onClick={() => {
+                console.log('Button 1 clicked!');
+                setShowFingeringChart(true);
+              }}
               className="w-full md:w-auto px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 shadow-md"
             >
               <BookOpen className="w-5 h-5" />
@@ -372,7 +380,10 @@ const FluteChecklistApp = () => {
             Quick Reference Tools
           </h3>
           <button
-            onClick={() => setShowFingeringChart(true)}
+            onClick={() => {
+              console.log('Button 2 clicked!');
+              setShowFingeringChart(true);
+            }}
             className="w-full px-4 py-3 bg-white hover:bg-purple-50 border-2 border-purple-300 text-purple-700 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium shadow-sm"
           >
             <Music className="w-5 h-5" />
