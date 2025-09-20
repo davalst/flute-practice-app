@@ -1,25 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, ChevronLeft, ChevronRight, Search, Download, FileText, Clock, Music, TrendingUp, Filter } from 'lucide-react';
+import React, { useState } from 'react';
+import { Calendar, ChevronLeft, ChevronRight, Search, Download, FileText, Clock, Music, ChevronDown, ChevronUp } from 'lucide-react';
 
 const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [viewMode, setViewMode] = useState('calendar'); // 'calendar', 'list', 'search'
+  const [viewMode, setViewMode] = useState('month'); // 'month', 'all', 'search'
   const [searchTerm, setSearchTerm] = useState('');
   const [filterExercise, setFilterExercise] = useState('all');
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [expandedDates, setExpandedDates] = useState({});
 
   // Get all unique exercise types from the data
   const getUniqueExercises = () => {
     const exercises = new Set();
     Object.keys(practiceNotes).forEach(key => {
       const exerciseId = key.split('-').slice(4).join('-');
-      exercises.add(exerciseId);
+      if (exerciseId) exercises.add(exerciseId);
     });
     Object.keys(checkedItems).forEach(key => {
       const exerciseId = key.split('-').slice(4).join('-');
-      exercises.add(exerciseId);
+      if (exerciseId) exercises.add(exerciseId);
     });
-    return Array.from(exercises);
+    return Array.from(exercises).filter(e => e);
+  };
+
+  // Format exercise ID to readable name
+  const formatExerciseName = (id) => {
+    if (!id) return 'Unknown';
+    return id.split('-').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
   };
 
   // Get practice data for a specific date
@@ -28,14 +36,16 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
       date: dateStr,
       exercises: [],
       totalTime: 0,
-      completionRate: 0
+      hasNotes: false
     };
 
     // Get all items for this date
-    const dateKeys = Object.keys(checkedItems).filter(key => key.startsWith(dateStr));
+    const dateKeys = Object.keys({...checkedItems, ...practiceNotes}).filter(key => key.startsWith(dateStr));
 
     dateKeys.forEach(key => {
       const exerciseId = key.split('-').slice(4).join('-');
+      if (!exerciseId) return;
+
       const noteKey = key;
       const tempoKey = key;
 
@@ -44,55 +54,64 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
       const savedTime = localStorage.getItem(timerKey);
       const minutes = savedTime ? Math.floor(parseInt(savedTime) / 60) : 0;
 
-      data.exercises.push({
-        id: exerciseId,
-        name: formatExerciseName(exerciseId),
-        completed: checkedItems[key] || false,
-        notes: practiceNotes[noteKey] || '',
-        tempo: tempoSettings[tempoKey] || null,
-        time: minutes
-      });
+      const notes = practiceNotes[noteKey] || '';
+      if (notes) data.hasNotes = true;
+
+      // Check if we already have this exercise
+      const existingExercise = data.exercises.find(e => e.id === exerciseId);
+      if (existingExercise) {
+        if (notes && !existingExercise.notes) existingExercise.notes = notes;
+        if (checkedItems[key]) existingExercise.completed = true;
+      } else {
+        data.exercises.push({
+          id: exerciseId,
+          name: formatExerciseName(exerciseId),
+          completed: checkedItems[key] || false,
+          notes: notes,
+          tempo: tempoSettings[tempoKey] || null,
+          time: minutes
+        });
+      }
 
       data.totalTime += minutes;
     });
 
-    // Calculate completion rate
-    const completed = data.exercises.filter(e => e.completed).length;
-    data.completionRate = data.exercises.length > 0
-      ? Math.round((completed / data.exercises.length) * 100)
-      : 0;
-
     return data;
   };
 
-  // Format exercise ID to readable name
-  const formatExerciseName = (id) => {
-    return id.split('-').map(word =>
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
-  };
-
-  // Get all practice dates
+  // Get all practice dates with notes or completed items
   const getAllPracticeDates = () => {
     const dates = new Set();
 
-    Object.keys(checkedItems).forEach(key => {
+    Object.keys(practiceNotes).forEach(key => {
       const parts = key.split(' ');
-      if (parts.length >= 4) {
+      if (parts.length >= 4 && practiceNotes[key]) {
         const dateStr = parts.slice(0, 4).join(' ');
         dates.add(dateStr);
       }
     });
 
-    Object.keys(practiceNotes).forEach(key => {
-      const parts = key.split(' ');
-      if (parts.length >= 4) {
-        const dateStr = parts.slice(0, 4).join(' ');
-        dates.add(dateStr);
+    Object.keys(checkedItems).forEach(key => {
+      if (checkedItems[key]) {
+        const parts = key.split(' ');
+        if (parts.length >= 4) {
+          const dateStr = parts.slice(0, 4).join(' ');
+          dates.add(dateStr);
+        }
       }
     });
 
     return Array.from(dates).sort((a, b) => new Date(b) - new Date(a));
+  };
+
+  // Get practice dates for current month
+  const getMonthPracticeDates = () => {
+    const allDates = getAllPracticeDates();
+    return allDates.filter(dateStr => {
+      const date = new Date(dateStr);
+      return date.getMonth() === currentMonth.getMonth() &&
+             date.getFullYear() === currentMonth.getFullYear();
+    });
   };
 
   // Search through all practice data
@@ -108,8 +127,7 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
           exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           exercise.notes.toLowerCase().includes(searchTerm.toLowerCase());
 
-        const matchesFilter = filterExercise === 'all' ||
-          exercise.id === filterExercise;
+        const matchesFilter = filterExercise === 'all' || exercise.id === filterExercise;
 
         if (matchesSearch && matchesFilter && (exercise.completed || exercise.notes)) {
           results.push({
@@ -123,33 +141,12 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
     return results;
   };
 
-  // Generate calendar days
-  const generateCalendarDays = () => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-
-    // Start from the Sunday of the week containing the first day
-    const startDate = new Date(firstDay);
-    startDate.setDate(firstDay.getDate() - firstDay.getDay());
-
-    const days = [];
-    const current = new Date(startDate);
-
-    // Always generate exactly 42 days (6 weeks) for consistent grid
-    for (let i = 0; i < 42; i++) {
-      days.push(new Date(current));
-      current.setDate(current.getDate() + 1);
-    }
-
-    return days;
-  };
-
-  // Check if date has practice data
-  const hasDataForDate = (date) => {
-    const dateStr = date.toDateString();
-    return getAllPracticeDates().includes(dateStr);
+  // Toggle expanded state for a date
+  const toggleDateExpanded = (dateStr) => {
+    setExpandedDates(prev => ({
+      ...prev,
+      [dateStr]: !prev[dateStr]
+    }));
   };
 
   // Export practice data
@@ -193,29 +190,50 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
     }
   };
 
+  // Calculate stats for the month
+  const getMonthStats = () => {
+    const dates = getMonthPracticeDates();
+    let totalNotes = 0;
+    let totalTime = 0;
+    let completedExercises = 0;
+
+    dates.forEach(dateStr => {
+      const data = getDateData(dateStr);
+      data.exercises.forEach(exercise => {
+        if (exercise.notes) totalNotes++;
+        if (exercise.completed) completedExercises++;
+        totalTime += exercise.time;
+      });
+    });
+
+    return { totalNotes, totalTime, completedExercises, practiceDays: dates.length };
+  };
+
+  const monthStats = getMonthStats();
+
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-bold text-gray-800 flex items-center">
           <Calendar className="w-6 h-6 mr-2 text-indigo-600" />
-          Practice History & Journal
+          Practice History & Notes
         </h3>
         <div className="flex gap-2">
           <button
-            onClick={() => setViewMode('calendar')}
+            onClick={() => setViewMode('month')}
             className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-              viewMode === 'calendar' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              viewMode === 'month' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
-            Calendar
+            By Month
           </button>
           <button
-            onClick={() => setViewMode('list')}
+            onClick={() => setViewMode('all')}
             className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-              viewMode === 'list' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              viewMode === 'all' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
-            List
+            All Notes
           </button>
           <button
             onClick={() => setViewMode('search')}
@@ -256,97 +274,133 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
         </div>
       )}
 
-      {/* Calendar View */}
-      {viewMode === 'calendar' && (
+      {/* Month View */}
+      {viewMode === 'month' && (
         <div>
-          <div className="flex items-center justify-between mb-4">
+          {/* Month Navigation */}
+          <div className="flex items-center justify-between mb-4 bg-gray-50 rounded-lg p-3">
             <button
               onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-              className="p-2 hover:bg-gray-100 rounded"
+              className="p-2 hover:bg-gray-200 rounded transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
-            <h4 className="text-lg font-semibold">
-              {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-            </h4>
+            <div className="text-center">
+              <h4 className="text-lg font-semibold">
+                {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+              </h4>
+              <div className="text-sm text-gray-600">
+                {monthStats.practiceDays} days • {monthStats.totalNotes} notes • {monthStats.totalTime} min
+              </div>
+            </div>
             <button
               onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
-              className="p-2 hover:bg-gray-100 rounded"
+              className="p-2 hover:bg-gray-200 rounded transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="grid grid-cols-7 gap-1 mb-2">
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-              <div key={day} className="text-center text-xs font-semibold text-gray-600 py-2">
-                {day}
+          {/* Practice Days List */}
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            {getMonthPracticeDates().length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <Music className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                <p>No practice notes for this month</p>
               </div>
-            ))}
-          </div>
-          <div className="grid grid-cols-7 gap-1">
-            {generateCalendarDays().map((date, index) => {
-              const hasData = hasDataForDate(date);
-              const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
-              const isToday = date.toDateString() === new Date().toDateString();
-              const isSelected = selectedDate && date.toDateString() === selectedDate;
+            ) : (
+              getMonthPracticeDates().map(dateStr => {
+                const data = getDateData(dateStr);
+                const isExpanded = expandedDates[dateStr];
+                const notesCount = data.exercises.filter(e => e.notes).length;
 
-              return (
-                <button
-                  key={index}
-                  onClick={() => hasData && setSelectedDate(date.toDateString())}
-                  className={`
-                    relative p-2 h-12 rounded text-sm
-                    ${isCurrentMonth ? 'text-gray-900' : 'text-gray-400'}
-                    ${hasData ? 'bg-green-50 hover:bg-green-100 font-semibold' : 'hover:bg-gray-50'}
-                    ${isToday ? 'ring-2 ring-indigo-500' : ''}
-                    ${isSelected ? 'bg-indigo-100' : ''}
-                    ${hasData ? 'cursor-pointer' : 'cursor-default'}
-                  `}
-                  disabled={!hasData}
-                >
-                  {date.getDate()}
-                  {hasData && (
-                    <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-green-500 rounded-full" />
-                  )}
-                </button>
-              );
-            })}
+                return (
+                  <div key={dateStr} className="bg-gray-50 rounded-lg overflow-hidden">
+                    <button
+                      onClick={() => toggleDateExpanded(dateStr)}
+                      className="w-full p-4 hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                          {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                          <div className="text-left">
+                            <div className="font-semibold text-gray-800">
+                              {new Date(dateStr).toLocaleDateString('en-US', {
+                                weekday: 'short',
+                                month: 'short',
+                                day: 'numeric'
+                              })}
+                            </div>
+                            <div className="text-sm text-gray-600">
+                              {data.exercises.filter(e => e.completed).length} completed •
+                              {notesCount > 0 && ` ${notesCount} notes • `}
+                              {data.totalTime > 0 && ` ${data.totalTime} min`}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+
+                    {isExpanded && (
+                      <div className="px-4 pb-4 border-t border-gray-200">
+                        {data.exercises.map((exercise, idx) => (
+                          <div key={idx} className="mt-3 bg-white p-3 rounded">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-medium text-gray-800">
+                                {exercise.completed && '✓ '}
+                                {exercise.name}
+                              </span>
+                              <div className="text-sm text-gray-500">
+                                {exercise.tempo && <span className="mr-3">♩ = {exercise.tempo}</span>}
+                                {exercise.time > 0 && <span>{exercise.time} min</span>}
+                              </div>
+                            </div>
+                            {exercise.notes && (
+                              <p className="text-sm text-gray-700 mt-2 pl-4 border-l-2 border-indigo-200">
+                                {exercise.notes}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       )}
 
-      {/* List View */}
-      {viewMode === 'list' && (
-        <div className="space-y-2 max-h-96 overflow-y-auto">
-          {getAllPracticeDates().slice(0, 30).map(dateStr => {
+      {/* All Notes View */}
+      {viewMode === 'all' && (
+        <div className="space-y-3 max-h-96 overflow-y-auto">
+          {getAllPracticeDates().slice(0, 50).map(dateStr => {
             const data = getDateData(dateStr);
-            if (data.exercises.length === 0) return null;
+            const notesExercises = data.exercises.filter(e => e.notes);
+
+            if (notesExercises.length === 0) return null;
 
             return (
-              <div
-                key={dateStr}
-                onClick={() => setSelectedDate(dateStr)}
-                className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer"
-              >
-                <div className="flex justify-between items-center">
-                  <div>
-                    <div className="font-semibold text-gray-800">
-                      {new Date(dateStr).toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: 'numeric'
-                      })}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {data.exercises.filter(e => e.completed).length} exercises • {data.totalTime} min
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-indigo-600">{data.completionRate}%</div>
-                    <div className="text-xs text-gray-500">Complete</div>
-                  </div>
+              <div key={dateStr} className="bg-gray-50 rounded-lg p-4">
+                <div className="font-semibold text-gray-800 mb-2">
+                  {new Date(dateStr).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                  })}
                 </div>
+                {notesExercises.map((exercise, idx) => (
+                  <div key={idx} className="mb-2">
+                    <div className="text-sm font-medium text-gray-700">
+                      {exercise.name}:
+                    </div>
+                    <p className="text-sm text-gray-600 ml-4 mt-1">
+                      {exercise.notes}
+                    </p>
+                  </div>
+                ))}
               </div>
             );
           })}
@@ -355,90 +409,34 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
 
       {/* Search Results */}
       {viewMode === 'search' && (
-        <div className="space-y-2 max-h-96 overflow-y-auto">
-          {searchPracticeData().map((result, index) => (
-            <div key={index} className="p-3 bg-gray-50 rounded-lg">
-              <div className="flex justify-between items-start mb-2">
-                <div>
-                  <span className="font-semibold text-gray-800">{result.name}</span>
-                  {result.completed && <span className="ml-2 text-green-600">✓</span>}
-                </div>
-                <span className="text-sm text-gray-500">
-                  {new Date(result.date).toLocaleDateString()}
-                </span>
-              </div>
-              {result.notes && (
-                <p className="text-sm text-gray-700 bg-white p-2 rounded">{result.notes}</p>
-              )}
-              <div className="flex gap-4 mt-2 text-xs text-gray-500">
-                {result.tempo && <span>Tempo: {result.tempo} BPM</span>}
-                {result.time > 0 && <span>Time: {result.time} min</span>}
-              </div>
+        <div className="space-y-3 max-h-96 overflow-y-auto">
+          {searchPracticeData().length === 0 ? (
+            <div className="text-center py-8 text-gray-500">
+              <Search className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+              <p>No results found</p>
             </div>
-          ))}
-        </div>
-      )}
-
-      {/* Selected Date Details */}
-      {selectedDate && (
-        <div className="mt-4 p-4 bg-indigo-50 rounded-lg">
-          <h4 className="font-semibold text-indigo-800 mb-3">
-            Practice Details for {new Date(selectedDate).toLocaleDateString('en-US', {
-              weekday: 'long',
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric'
-            })}
-          </h4>
-          {(() => {
-            const data = getDateData(selectedDate);
-            return (
-              <div>
-                <div className="grid grid-cols-3 gap-4 mb-3 text-center">
+          ) : (
+            searchPracticeData().map((result, index) => (
+              <div key={index} className="bg-gray-50 rounded-lg p-3">
+                <div className="flex justify-between items-start mb-2">
                   <div>
-                    <div className="text-2xl font-bold text-indigo-600">
-                      {data.exercises.filter(e => e.completed).length}
-                    </div>
-                    <div className="text-sm text-gray-600">Completed</div>
+                    <span className="font-semibold text-gray-800">{result.name}</span>
+                    {result.completed && <span className="ml-2 text-green-600">✓</span>}
                   </div>
-                  <div>
-                    <div className="text-2xl font-bold text-green-600">
-                      {data.totalTime}
-                    </div>
-                    <div className="text-sm text-gray-600">Minutes</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-purple-600">
-                      {data.completionRate}%
-                    </div>
-                    <div className="text-sm text-gray-600">Complete</div>
-                  </div>
+                  <span className="text-sm text-gray-500">
+                    {new Date(result.date).toLocaleDateString()}
+                  </span>
                 </div>
-
-                <div className="space-y-2">
-                  {data.exercises.map((exercise, idx) => (
-                    <div key={idx} className="bg-white p-3 rounded">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-medium text-gray-800">
-                          {exercise.completed && '✓ '}
-                          {exercise.name}
-                        </span>
-                        <div className="text-sm text-gray-500">
-                          {exercise.tempo && <span className="mr-3">♩ = {exercise.tempo}</span>}
-                          {exercise.time > 0 && <span>{exercise.time} min</span>}
-                        </div>
-                      </div>
-                      {exercise.notes && (
-                        <p className="text-sm text-gray-700 mt-2 pl-4 border-l-2 border-indigo-200">
-                          {exercise.notes}
-                        </p>
-                      )}
-                    </div>
-                  ))}
+                {result.notes && (
+                  <p className="text-sm text-gray-700 bg-white p-2 rounded">{result.notes}</p>
+                )}
+                <div className="flex gap-4 mt-2 text-xs text-gray-500">
+                  {result.tempo && <span>Tempo: {result.tempo} BPM</span>}
+                  {result.time > 0 && <span>Time: {result.time} min</span>}
                 </div>
               </div>
-            );
-          })()}
+            ))
+          )}
         </div>
       )}
 
