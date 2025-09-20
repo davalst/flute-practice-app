@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Check, Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, CheckCircle2, Trophy, Lightbulb, BookOpen, Wind } from 'lucide-react';
+import { Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, CheckCircle2, Trophy, Lightbulb } from 'lucide-react';
 import './App.css';
 import { weeklyPractice, weeklyTeachingTips } from './curriculumData';
 import InlineMetronome from './components/InlineMetronome';
@@ -8,7 +8,6 @@ import PracticeTimer from './components/PracticeTimer';
 import ProgressChart from './components/ProgressChart';
 import Achievements from './components/Achievements';
 import PracticeHistory from './components/PracticeHistory';
-import FingeringChart from './components/FingeringChart';
 import BreathingExercises from './components/BreathingExercises';
 
 const FluteChecklistApp = () => {
@@ -36,12 +35,6 @@ const FluteChecklistApp = () => {
   });
 
   const [showTips, setShowTips] = useState(false);
-  const [showFingeringChart, setShowFingeringChart] = useState(false);
-
-  // Debug the state
-  useEffect(() => {
-    console.log('Fingering chart open state:', showFingeringChart);
-  }, [showFingeringChart]);
 
   // Save to localStorage whenever state changes
   useEffect(() => {
@@ -357,38 +350,8 @@ const FluteChecklistApp = () => {
         </div>
 
         {/* Quick Tools Bar */}
-        <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="mb-8">
           <CompactMetronome />
-          <div className="flex items-center justify-center">
-            <button
-              onClick={() => {
-                console.log('Button 1 clicked!');
-                setShowFingeringChart(true);
-              }}
-              className="w-full md:w-auto px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 shadow-md"
-            >
-              <BookOpen className="w-5 h-5" />
-              <span className="font-medium">Open Fingering Chart</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Reference Tools Section */}
-        <div className="mb-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
-            <BookOpen className="w-5 h-5 mr-2 text-purple-600" />
-            Quick Reference Tools
-          </h3>
-          <button
-            onClick={() => {
-              console.log('Button 2 clicked!');
-              setShowFingeringChart(true);
-            }}
-            className="w-full px-4 py-3 bg-white hover:bg-purple-50 border-2 border-purple-300 text-purple-700 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium shadow-sm"
-          >
-            <Music className="w-5 h-5" />
-            View Complete Fingering Chart
-          </button>
         </div>
 
         {/* Breathing Exercises */}
@@ -604,12 +567,6 @@ const FluteChecklistApp = () => {
           </button>
         </div>
       </div>
-
-      {/* Fingering Chart Modal */}
-      <FingeringChart
-        isOpen={showFingeringChart}
-        onClose={() => setShowFingeringChart(false)}
-      />
     </div>
   );
 };

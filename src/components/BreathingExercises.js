@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RotateCcw, Wind, Gauge, Timer, Info } from 'lucide-react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Play, Pause, RotateCcw, Wind, Timer, Info } from 'lucide-react';
 
 const BreathingExercises = () => {
   const [selectedExercise, setSelectedExercise] = useState(0);
@@ -13,7 +13,7 @@ const BreathingExercises = () => {
   const audioContextRef = useRef(null);
 
   // Breathing exercise patterns
-  const exercises = [
+  const exercises = useMemo(() => [
     {
       name: "Basic 4-4-4-4",
       description: "Equal breathing for beginners",
@@ -50,7 +50,7 @@ const BreathingExercises = () => {
       pattern: { inhale: 1, hold1: 1, exhale: 2, hold2: 1 },
       recommended: "Practice quick, efficient breaths between phrases"
     }
-  ];
+  ], []);
 
   useEffect(() => {
     // Initialize audio context for click sounds
@@ -130,7 +130,7 @@ const BreathingExercises = () => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isRunning, selectedExercise, currentPhase, totalCycles]);
+  }, [isRunning, selectedExercise, currentPhase, totalCycles, exercises]);
 
   const playTick = () => {
     if (!audioContextRef.current) return;

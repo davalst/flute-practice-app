@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, ChevronLeft, ChevronRight, Search, Download, FileText, Clock, Music, ChevronDown, ChevronUp } from 'lucide-react';
+import { Calendar, ChevronLeft, ChevronRight, Search, Download, FileText, Music, ChevronDown, ChevronUp } from 'lucide-react';
 
 const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate }) => {
   const [viewMode, setViewMode] = useState('month'); // 'month', 'all', 'search'
