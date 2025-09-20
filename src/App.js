@@ -1,16 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { Check, Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, Clock, BookOpen, Mic, Volume2, AlertCircle, CheckCircle2, Trophy, Lightbulb } from 'lucide-react';
+import { Check, Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, Clock, CheckCircle2, Trophy, Lightbulb } from 'lucide-react';
 import './App.css';
 
 const FluteChecklistApp = () => {
-  const [startDate] = useState(new Date());
-  const [checkedItems, setCheckedItems] = useState({});
+  // Initialize from localStorage or use defaults
+  const [startDate] = useState(() => {
+    const saved = localStorage.getItem('fluteApp_startDate');
+    return saved ? new Date(saved) : new Date();
+  });
+
+  const [checkedItems, setCheckedItems] = useState(() => {
+    const saved = localStorage.getItem('fluteApp_checkedItems');
+    return saved ? JSON.parse(saved) : {};
+  });
+
   const [sessionCompleted, setSessionCompleted] = useState(false);
-  const [practiceNotes, setPracticeNotes] = useState({});
-  const [tempoSettings, setTempoSettings] = useState({});
-  const [practiceStreak, setPracticeStreak] = useState(0);
+
+  const [practiceNotes, setPracticeNotes] = useState(() => {
+    const saved = localStorage.getItem('fluteApp_practiceNotes');
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  const [tempoSettings, setTempoSettings] = useState(() => {
+    const saved = localStorage.getItem('fluteApp_tempoSettings');
+    return saved ? JSON.parse(saved) : {};
+  });
+
   const [showTips, setShowTips] = useState(false);
-  const [currentTip, setCurrentTip] = useState(0);
+
+  // Save to localStorage whenever state changes
+  useEffect(() => {
+    localStorage.setItem('fluteApp_startDate', startDate.toISOString());
+  }, [startDate]);
+
+  useEffect(() => {
+    localStorage.setItem('fluteApp_checkedItems', JSON.stringify(checkedItems));
+  }, [checkedItems]);
+
+  useEffect(() => {
+    localStorage.setItem('fluteApp_practiceNotes', JSON.stringify(practiceNotes));
+  }, [practiceNotes]);
+
+  useEffect(() => {
+    localStorage.setItem('fluteApp_tempoSettings', JSON.stringify(tempoSettings));
+  }, [tempoSettings]);
 
   // Calculate current day and week based on start date
   const getCurrentDay = () => {
@@ -166,10 +199,6 @@ const FluteChecklistApp = () => {
       ...prev,
       [key]: !prev[key]
     }));
-    
-    // Update practice streak
-    const newStreak = getPracticeStreak();
-    setPracticeStreak(newStreak);
   };
 
   const handleNotesChange = (itemId, notes) => {
@@ -312,18 +341,21 @@ const FluteChecklistApp = () => {
   const resetDay = () => {
     const today = new Date().toDateString();
     const newCheckedItems = { ...checkedItems };
-    
+
     currentPractice.items.forEach(item => {
       const key = `${today}-${item.id}`;
       delete newCheckedItems[key];
     });
-    
+
     setCheckedItems(newCheckedItems);
     setSessionCompleted(false);
   };
 
-  const completeSession = () => {
-    setSessionCompleted(true);
+  const resetAllData = () => {
+    if (window.confirm('This will clear all your practice history. Are you sure?')) {
+      localStorage.clear();
+      window.location.reload();
+    }
   };
 
   const progress = getTodayProgress();
@@ -577,6 +609,12 @@ const FluteChecklistApp = () => {
         <div className="text-center text-gray-500 text-sm border-t pt-6">
           <p>Started your journey on {startDate.toLocaleDateString()} 🎵</p>
           <p className="mt-1">Consistency builds excellence!</p>
+          <button
+            onClick={resetAllData}
+            className="mt-4 text-xs text-red-600 hover:text-red-800 underline"
+          >
+            Reset All Data
+          </button>
         </div>
       </div>
     </div>
