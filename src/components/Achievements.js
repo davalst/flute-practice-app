@@ -170,7 +170,9 @@ const Achievements = ({ checkedItems, startDate, currentWeek }) => {
         // Calculate daily minutes
         let dailyMinutes = 0;
         dayItems.forEach(key => {
-          const itemId = key.split('-').slice(4).join('-');
+          // Key format is like "Tue Dec 10 2024-long-tones"
+          // Extract the itemId by removing the date prefix
+          const itemId = key.substring(dateStr.length + 1); // +1 for the dash
           const timerKey = `timer_${itemId}_${dateStr}`;
           const savedTime = localStorage.getItem(timerKey);
           if (savedTime) {

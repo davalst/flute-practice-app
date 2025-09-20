@@ -43,7 +43,9 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
     const dateKeys = Object.keys({...checkedItems, ...practiceNotes}).filter(key => key.startsWith(dateStr));
 
     dateKeys.forEach(key => {
-      const exerciseId = key.split('-').slice(4).join('-');
+      // Key format is like "Tue Dec 10 2024-long-tones"
+      // Extract the exerciseId by removing the date prefix
+      const exerciseId = key.substring(dateStr.length + 1); // +1 for the dash
       if (!exerciseId) return;
 
       const noteKey = key;
@@ -62,6 +64,8 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
       if (existingExercise) {
         if (notes && !existingExercise.notes) existingExercise.notes = notes;
         if (checkedItems[key]) existingExercise.completed = true;
+        // Update time if we have it
+        if (minutes > 0) existingExercise.time = minutes;
       } else {
         data.exercises.push({
           id: exerciseId,
@@ -71,9 +75,9 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
           tempo: tempoSettings[tempoKey] || null,
           time: minutes
         });
+        // Only add to totalTime for new exercises
+        data.totalTime += minutes;
       }
-
-      data.totalTime += minutes;
     });
 
     return data;

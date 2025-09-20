@@ -66,12 +66,14 @@ const ProgressChart = ({ checkedItems, startDate, currentWeek }) => {
   const calculateDayProgress = (dateStr) => {
     const dayItems = Object.keys(checkedItems).filter(key => key.startsWith(dateStr));
     const completedItems = dayItems.filter(key => checkedItems[key]).length;
-    const totalItems = dayItems.length > 0 ? 4 : 0; // Assuming 4 items per day as standard
+    const totalItems = dayItems.length > 0 ? 5 : 0; // Updated to 5 items per day (new curriculum structure)
 
     // Calculate practice time from localStorage
     let totalMinutes = 0;
     dayItems.forEach(key => {
-      const itemId = key.split('-').slice(4).join('-');
+      // Key format is like "Tue Dec 10 2024-long-tones"
+      // Extract the itemId by removing the date prefix
+      const itemId = key.substring(dateStr.length + 1); // +1 for the dash
       const timerKey = `timer_${itemId}_${dateStr}`;
       const savedTime = localStorage.getItem(timerKey);
       if (savedTime) {
