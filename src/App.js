@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Check, Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, Clock, CheckCircle2, Trophy, Lightbulb } from 'lucide-react';
+import { Check, Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, CheckCircle2, Trophy, Lightbulb } from 'lucide-react';
 import './App.css';
 import { weeklyPractice, weeklyTeachingTips } from './curriculumData';
-import Metronome from './components/Metronome';
+import InlineMetronome from './components/InlineMetronome';
+import CompactMetronome from './components/CompactMetronome';
 import PracticeTimer from './components/PracticeTimer';
 import ProgressChart from './components/ProgressChart';
 import Achievements from './components/Achievements';
@@ -346,9 +347,9 @@ const FluteChecklistApp = () => {
           </div>
         </div>
 
-        {/* Metronome Component */}
+        {/* Compact Global Metronome */}
         <div className="mb-8">
-          <Metronome defaultTempo={120} />
+          <CompactMetronome />
         </div>
 
         {/* Weekly Progress */}
@@ -441,25 +442,15 @@ const FluteChecklistApp = () => {
                   </label>
                 </div>
                 
-                {/* Tempo setting for applicable items */}
+                {/* Inline Metronome for applicable items */}
                 {item.tempoRange && (
-                  <div className="ml-8 flex items-center gap-4">
-                    <div className="flex items-center">
-                      <Clock className="w-4 h-4 text-gray-500 mr-2" />
-                      <label className="text-sm text-gray-700">Tempo (BPM):</label>
-                    </div>
-                    <input
-                      type="number"
-                      min={item.tempoRange.min}
-                      max={item.tempoRange.max}
-                      placeholder={item.tempoRange.suggested.toString()}
-                      value={getItemTempo(item.id)}
-                      onChange={(e) => handleTempoChange(item.id, e.target.value)}
-                      className="w-16 px-2 py-1 border border-gray-300 rounded text-sm"
+                  <div className="ml-8">
+                    <InlineMetronome
+                      tempo={getItemTempo(item.id) || item.tempoRange.suggested}
+                      setTempo={(value) => handleTempoChange(item.id, value)}
+                      tempoRange={item.tempoRange}
+                      itemId={item.id}
                     />
-                    <span className="text-xs text-gray-500">
-                      (Range: {item.tempoRange.min}-{item.tempoRange.max})
-                    </span>
                   </div>
                 )}
 
