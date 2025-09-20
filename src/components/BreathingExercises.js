@@ -67,6 +67,7 @@ const BreathingExercises = () => {
       const exercise = exercises[selectedExercise];
       let phase = 'inhale';
       let timer = exercise.pattern.inhale;
+      let previousPhase = ''; // Track what came before hold
       setCurrentPhase(phase);
       setTimeRemaining(timer);
 
@@ -78,30 +79,36 @@ const BreathingExercises = () => {
           playTick();
 
           // Move to next phase
-          if (phase === 'inhale' && exercise.pattern.hold1 > 0) {
-            phase = 'hold';
-            timer = exercise.pattern.hold1;
-          } else if (phase === 'inhale' && exercise.pattern.hold1 === 0) {
+          if (phase === 'inhale') {
+            if (exercise.pattern.hold1 > 0) {
+              previousPhase = 'inhale';
+              phase = 'hold';
+              timer = exercise.pattern.hold1;
+            } else {
+              phase = 'exhale';
+              timer = exercise.pattern.exhale;
+            }
+          } else if (phase === 'hold' && previousPhase === 'inhale') {
             phase = 'exhale';
             timer = exercise.pattern.exhale;
-          } else if (phase === 'hold' && currentPhase === 'inhale') {
-            phase = 'exhale';
-            timer = exercise.pattern.exhale;
-          } else if (phase === 'exhale' && exercise.pattern.hold2 > 0) {
-            phase = 'hold';
-            timer = exercise.pattern.hold2;
-          } else if (phase === 'exhale' && exercise.pattern.hold2 === 0) {
-            // Cycle complete
-            setCycleCount(prev => {
-              if (prev + 1 >= totalCycles) {
-                setIsRunning(false);
-                return 0;
-              }
-              return prev + 1;
-            });
-            phase = 'inhale';
-            timer = exercise.pattern.inhale;
-          } else if (phase === 'hold' && currentPhase === 'exhale') {
+          } else if (phase === 'exhale') {
+            if (exercise.pattern.hold2 > 0) {
+              previousPhase = 'exhale';
+              phase = 'hold';
+              timer = exercise.pattern.hold2;
+            } else {
+              // Cycle complete
+              setCycleCount(prev => {
+                if (prev + 1 >= totalCycles) {
+                  setIsRunning(false);
+                  return 0;
+                }
+                return prev + 1;
+              });
+              phase = 'inhale';
+              timer = exercise.pattern.inhale;
+            }
+          } else if (phase === 'hold' && previousPhase === 'exhale') {
             // Cycle complete
             setCycleCount(prev => {
               if (prev + 1 >= totalCycles) {
@@ -130,7 +137,7 @@ const BreathingExercises = () => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isRunning, selectedExercise, currentPhase, totalCycles, exercises]);
+  }, [isRunning, selectedExercise, totalCycles, exercises]);
 
   const playTick = () => {
     if (!audioContextRef.current) return;
