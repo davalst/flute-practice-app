@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Check, Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, CheckCircle2, Trophy, Lightbulb } from 'lucide-react';
+import { Check, Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, CheckCircle2, Trophy, Lightbulb, BookOpen, Wind } from 'lucide-react';
 import './App.css';
 import { weeklyPractice, weeklyTeachingTips } from './curriculumData';
 import InlineMetronome from './components/InlineMetronome';
@@ -8,6 +8,8 @@ import PracticeTimer from './components/PracticeTimer';
 import ProgressChart from './components/ProgressChart';
 import Achievements from './components/Achievements';
 import PracticeHistory from './components/PracticeHistory';
+import FingeringChart from './components/FingeringChart';
+import BreathingExercises from './components/BreathingExercises';
 
 const FluteChecklistApp = () => {
   // Initialize from localStorage or use defaults
@@ -34,6 +36,7 @@ const FluteChecklistApp = () => {
   });
 
   const [showTips, setShowTips] = useState(false);
+  const [showFingeringChart, setShowFingeringChart] = useState(false);
 
   // Save to localStorage whenever state changes
   useEffect(() => {
@@ -348,9 +351,23 @@ const FluteChecklistApp = () => {
           </div>
         </div>
 
-        {/* Compact Global Metronome */}
+        {/* Quick Tools Bar */}
+        <div className="mb-8 flex gap-4">
+          <div className="flex-1">
+            <CompactMetronome />
+          </div>
+          <button
+            onClick={() => setShowFingeringChart(true)}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
+          >
+            <BookOpen className="w-4 h-4" />
+            Fingering Chart
+          </button>
+        </div>
+
+        {/* Breathing Exercises */}
         <div className="mb-8">
-          <CompactMetronome />
+          <BreathingExercises />
         </div>
 
         {/* Weekly Progress */}
@@ -561,6 +578,12 @@ const FluteChecklistApp = () => {
           </button>
         </div>
       </div>
+
+      {/* Fingering Chart Modal */}
+      <FingeringChart
+        isOpen={showFingeringChart}
+        onClose={() => setShowFingeringChart(false)}
+      />
     </div>
   );
 };
