@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Check, Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, Clock, CheckCircle2, Trophy, Lightbulb } from 'lucide-react';
 import './App.css';
 import { weeklyPractice, weeklyTeachingTips } from './curriculumData';
+import Metronome from './components/Metronome';
+import PracticeTimer from './components/PracticeTimer';
 
 const FluteChecklistApp = () => {
   // Initialize from localStorage or use defaults
@@ -342,6 +344,11 @@ const FluteChecklistApp = () => {
           </div>
         </div>
 
+        {/* Metronome Component */}
+        <div className="mb-8">
+          <Metronome defaultTempo={120} />
+        </div>
+
         {/* Weekly Progress */}
         <div className="bg-gray-50 rounded-lg p-6 mb-8">
           <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
@@ -407,13 +414,14 @@ const FluteChecklistApp = () => {
                 <div className="flex items-center">
                   <button
                     onClick={() => handleItemCheck(item.id)}
-                    className={`flex-shrink-0 w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center transition-all ${
+                    className={`flex-shrink-0 w-7 h-7 rounded border-2 mr-4 flex items-center justify-center transition-all ${
                       isItemChecked(item.id)
                         ? 'bg-green-500 border-green-500 text-white'
-                        : 'border-gray-300 hover:border-green-400'
+                        : 'bg-white border-gray-400 hover:border-green-500'
                     }`}
+                    aria-label={`Mark ${item.label} as ${isItemChecked(item.id) ? 'incomplete' : 'complete'}`}
                   >
-                    {isItemChecked(item.id) && <Check className="w-4 h-4" />}
+                    {isItemChecked(item.id) && <Check className="w-5 h-5 font-bold" />}
                   </button>
                   <div className="flex-grow">
                     <div className="flex items-center justify-between">
@@ -456,6 +464,17 @@ const FluteChecklistApp = () => {
                     </span>
                   </div>
                 )}
+
+                {/* Practice Timer */}
+                <div className="ml-10">
+                  <PracticeTimer
+                    recommendedMinutes={parseInt(item.time)}
+                    itemId={item.id}
+                    onTimeUpdate={(id, seconds) => {
+                      // Optional: handle time updates if needed
+                    }}
+                  />
+                </div>
 
                 {/* Practice tips */}
                 {item.tips && (
