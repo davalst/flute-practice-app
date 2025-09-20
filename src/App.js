@@ -4,6 +4,8 @@ import './App.css';
 import { weeklyPractice, weeklyTeachingTips } from './curriculumData';
 import Metronome from './components/Metronome';
 import PracticeTimer from './components/PracticeTimer';
+import ProgressChart from './components/ProgressChart';
+import Achievements from './components/Achievements';
 
 const FluteChecklistApp = () => {
   // Initialize from localStorage or use defaults
@@ -499,6 +501,24 @@ const FluteChecklistApp = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Progress Chart */}
+        <div className="mb-8">
+          <ProgressChart
+            checkedItems={checkedItems}
+            startDate={startDate}
+            currentWeek={currentWeek}
+          />
+        </div>
+
+        {/* Achievements */}
+        <div className="mb-8">
+          <Achievements
+            checkedItems={checkedItems}
+            startDate={startDate}
+            currentWeek={currentWeek}
+          />
         </div>
 
         {/* Session Completion */}
