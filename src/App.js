@@ -409,58 +409,63 @@ const FluteChecklistApp = () => {
           </div>
         </div>
 
-        {/* Quick Tools Bar */}
-        <div className="mb-8">
-          <CompactMetronome />
-        </div>
+        {/* Only show these sections when viewing current week */}
+        {isViewingCurrentWeek && (
+          <>
+            {/* Quick Tools Bar */}
+            <div className="mb-8">
+              <CompactMetronome />
+            </div>
 
-        {/* Breathing Exercises */}
-        <div className="mb-8">
-          <BreathingExercises />
-        </div>
+            {/* Breathing Exercises */}
+            <div className="mb-8">
+              <BreathingExercises />
+            </div>
 
-        {/* Weekly Progress */}
-        <div className="bg-gray-50 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <TrendingUp className="w-5 h-5 mr-2" />
-            Week {currentWeek} Progress
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">{weekProgress.completedDays}</div>
-              <div className="text-sm text-gray-600">Days Completed</div>
+            {/* Weekly Progress */}
+            <div className="bg-gray-50 rounded-lg p-6 mb-8">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <TrendingUp className="w-5 h-5 mr-2" />
+                Week {currentWeek} Progress
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">{weekProgress.completedDays}</div>
+                  <div className="text-sm text-gray-600">Days Completed</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">{weekProgress.totalPoints}</div>
+                  <div className="text-sm text-gray-600">Points Earned</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-purple-600">{Math.round((weekProgress.totalPoints / weekProgress.maxWeekPoints) * 100)}%</div>
+                  <div className="text-sm text-gray-600">Week Score</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-600">{7 - weekProgress.completedDays}</div>
+                  <div className="text-sm text-gray-600">Days Remaining</div>
+                </div>
+              </div>
+              <div className="text-center text-gray-700 font-medium">
+                {getWeeklyEncouragement(weekProgress)}
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">{weekProgress.totalPoints}</div>
-              <div className="text-sm text-gray-600">Points Earned</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">{Math.round((weekProgress.totalPoints / weekProgress.maxWeekPoints) * 100)}%</div>
-              <div className="text-sm text-gray-600">Week Score</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600">{7 - weekProgress.completedDays}</div>
-              <div className="text-sm text-gray-600">Days Remaining</div>
-            </div>
-          </div>
-          <div className="text-center text-gray-700 font-medium">
-            {getWeeklyEncouragement(weekProgress)}
-          </div>
-        </div>
 
-        {/* Daily Progress */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">Today's Progress</span>
-            <span className="text-sm text-gray-600">{progress.points}/{progress.maxPoints} points</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
-            <div 
-              className="bg-gradient-to-r from-green-500 to-emerald-500 h-3 rounded-full transition-all duration-300"
-              style={{ width: `${progressPercent}%` }}
-            ></div>
-          </div>
-        </div>
+            {/* Daily Progress */}
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700">Today's Progress</span>
+                <span className="text-sm text-gray-600">{progress.points}/{progress.maxPoints} points</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-3">
+                <div
+                  className="bg-gradient-to-r from-green-500 to-emerald-500 h-3 rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Practice Checklist */}
         <div className="space-y-4 mb-8">
@@ -582,36 +587,41 @@ const FluteChecklistApp = () => {
           ))}
         </div>
 
-        {/* Progress Chart */}
-        <div className="mb-8">
-          <ProgressChart
-            checkedItems={checkedItems}
-            startDate={startDate}
-            currentWeek={currentWeek}
-          />
-        </div>
+        {/* Only show progress tracking when viewing current week */}
+        {isViewingCurrentWeek && (
+          <>
+            {/* Progress Chart */}
+            <div className="mb-8">
+              <ProgressChart
+                checkedItems={checkedItems}
+                startDate={startDate}
+                currentWeek={currentWeek}
+              />
+            </div>
 
-        {/* Achievements */}
-        <div className="mb-8">
-          <Achievements
-            checkedItems={checkedItems}
-            startDate={startDate}
-            currentWeek={currentWeek}
-          />
-        </div>
+            {/* Achievements */}
+            <div className="mb-8">
+              <Achievements
+                checkedItems={checkedItems}
+                startDate={startDate}
+                currentWeek={currentWeek}
+              />
+            </div>
 
-        {/* Practice History & Journal */}
-        <div className="mb-8">
-          <PracticeHistory
-            checkedItems={checkedItems}
-            practiceNotes={practiceNotes}
-            tempoSettings={tempoSettings}
-            startDate={startDate}
-          />
-        </div>
+            {/* Practice History & Journal */}
+            <div className="mb-8">
+              <PracticeHistory
+                checkedItems={checkedItems}
+                practiceNotes={practiceNotes}
+                tempoSettings={tempoSettings}
+                startDate={startDate}
+              />
+            </div>
+          </>
+        )}
 
-        {/* Session Completion */}
-        {sessionCompleted && (
+        {/* Session Completion - only show on current week */}
+        {sessionCompleted && isViewingCurrentWeek && (
           <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-6 mb-8">
             <div className="text-center">
               <div className="flex items-center justify-center mb-4">
