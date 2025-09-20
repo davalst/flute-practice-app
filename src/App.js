@@ -352,16 +352,31 @@ const FluteChecklistApp = () => {
         </div>
 
         {/* Quick Tools Bar */}
-        <div className="mb-8 flex gap-4">
-          <div className="flex-1">
-            <CompactMetronome />
+        <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <CompactMetronome />
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => setShowFingeringChart(true)}
+              className="w-full md:w-auto px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 shadow-md"
+            >
+              <BookOpen className="w-5 h-5" />
+              <span className="font-medium">Open Fingering Chart</span>
+            </button>
           </div>
+        </div>
+
+        {/* Reference Tools Section */}
+        <div className="mb-8 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-4">
+          <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+            <BookOpen className="w-5 h-5 mr-2 text-purple-600" />
+            Quick Reference Tools
+          </h3>
           <button
             onClick={() => setShowFingeringChart(true)}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
+            className="w-full px-4 py-3 bg-white hover:bg-purple-50 border-2 border-purple-300 text-purple-700 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium shadow-sm"
           >
-            <BookOpen className="w-4 h-4" />
-            Fingering Chart
+            <Music className="w-5 h-5" />
+            View Complete Fingering Chart
           </button>
         </div>
 
