@@ -7,6 +7,7 @@ import CompactMetronome from './components/CompactMetronome';
 import PracticeTimer from './components/PracticeTimer';
 import ProgressChart from './components/ProgressChart';
 import Achievements from './components/Achievements';
+import PracticeHistory from './components/PracticeHistory';
 
 const FluteChecklistApp = () => {
   // Initialize from localStorage or use defaults
@@ -509,6 +510,16 @@ const FluteChecklistApp = () => {
             checkedItems={checkedItems}
             startDate={startDate}
             currentWeek={currentWeek}
+          />
+        </div>
+
+        {/* Practice History & Journal */}
+        <div className="mb-8">
+          <PracticeHistory
+            checkedItems={checkedItems}
+            practiceNotes={practiceNotes}
+            tempoSettings={tempoSettings}
+            startDate={startDate}
           />
         </div>
 
