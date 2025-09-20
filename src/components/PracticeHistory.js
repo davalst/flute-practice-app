@@ -129,13 +129,16 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
     const month = currentMonth.getMonth();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
+
+    // Start from the Sunday of the week containing the first day
     const startDate = new Date(firstDay);
-    startDate.setDate(startDate.getDate() - firstDay.getDay());
+    startDate.setDate(firstDay.getDate() - firstDay.getDay());
 
     const days = [];
     const current = new Date(startDate);
 
-    while (current <= lastDay || current.getDay() !== 0) {
+    // Always generate exactly 42 days (6 weeks) for consistent grid
+    for (let i = 0; i < 42; i++) {
       days.push(new Date(current));
       current.setDate(current.getDate() + 1);
     }
@@ -274,12 +277,14 @@ const PracticeHistory = ({ checkedItems, practiceNotes, tempoSettings, startDate
             </button>
           </div>
 
-          <div className="grid grid-cols-7 gap-1">
+          <div className="grid grid-cols-7 gap-1 mb-2">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
               <div key={day} className="text-center text-xs font-semibold text-gray-600 py-2">
                 {day}
               </div>
             ))}
+          </div>
+          <div className="grid grid-cols-7 gap-1">
             {generateCalendarDays().map((date, index) => {
               const hasData = hasDataForDate(date);
               const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
