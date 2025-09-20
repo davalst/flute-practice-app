@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Check, Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, Clock, CheckCircle2, Trophy, Lightbulb } from 'lucide-react';
 import './App.css';
+import { weeklyPractice, weeklyTeachingTips } from './curriculumData';
 
 const FluteChecklistApp = () => {
   // Initialize from localStorage or use defaults
@@ -61,100 +62,6 @@ const FluteChecklistApp = () => {
   const currentDay = getCurrentDay();
   const currentWeek = getCurrentWeek();
   const dayOfWeek = ((currentDay - 1) % 7) + 1; // 1-7 within the week
-
-  // Week-specific practice items
-  const weeklyPractice = {
-    1: {
-      title: "Week 1: Build Tone & Routine",
-      focus: "Develop consistent daily habit, tone quality, and basic scales",
-      milestone: "Play C major one octave smoothly and sight-read simple rhythms",
-      weeklyGoal: "Complete 6 out of 7 days this week",
-      items: [
-        { 
-          id: 'long-tones', 
-          label: 'Long tones (focus on breath control)', 
-          time: '10 min', 
-          points: 25,
-          tips: ['Start with 8 counts, gradually increase', 'Keep shoulders relaxed', 'Listen for steady tone'],
-          tempoRange: { min: 60, max: 80, suggested: 60 }
-        },
-        { 
-          id: 'c-major', 
-          label: 'C major scale (one octave)', 
-          time: '10 min', 
-          points: 25,
-          tips: ['Practice hands separately first', 'Use correct fingerings', 'Keep tempo steady'],
-          tempoRange: { min: 60, max: 100, suggested: 80 }
-        },
-        { 
-          id: 'simple-pieces', 
-          label: 'Simple pieces (2-4 measures at a time)', 
-          time: '20 min', 
-          points: 35,
-          tips: ['Play slowly first', 'Count aloud', 'Focus on note accuracy over speed'],
-          isMainFocus: true
-        },
-        { 
-          id: 'sight-reading', 
-          label: 'Easy sight-reading (never stop for mistakes)', 
-          time: '5 min', 
-          points: 15,
-          tips: ['Keep eyes on music', 'Don\'t go back to fix mistakes', 'Start very slowly'],
-          quality: 'accuracy'
-        }
-      ]
-    },
-    2: {
-      title: "Week 2: Add Rhythm & Expand Range",
-      focus: "Improve rhythm skills and play confidently in time",
-      milestone: "Play simple pieces in C and G major at steady tempo",
-      weeklyGoal: "Practice with metronome at least 5 days",
-      items: [
-        { id: 'dynamic-long-tones', label: 'Long tones with crescendo-decrescendo', time: '8 min', points: 20 },
-        { id: 'c-g-scales', label: 'C major (two octaves) + G major (one octave)', time: '12 min', points: 25 },
-        { id: 'phrase-pieces', label: 'Break pieces into phrases, then connect', time: '15 min', points: 30 },
-        { id: 'rhythm-work', label: 'Clap rhythms, use metronome for sections', time: '5 min', points: 15 },
-        { id: 'harder-sight-reading', label: 'Slightly harder sight-reading', time: '5 min', points: 10 }
-      ]
-    },
-    // Add more weeks as needed - I'll include a few key ones
-    3: {
-      title: "Week 3: Improve Finger Dexterity & Fluency",
-      focus: "Build smoother transitions and read longer pieces",
-      milestone: "Play three major scales comfortably, confident sight-reading",
-      weeklyGoal: "Master all three scales (C, G, F) by week's end",
-      items: [
-        { id: 'three-scales', label: 'Rotate C, G, and F major scales daily', time: '12 min', points: 30 },
-        { id: 'finger-patterns', label: 'Finger pattern exercises with metronome', time: '8 min', points: 20 },
-        { id: 'whole-piece', label: 'Play through whole piece once (even if slow)', time: '15 min', points: 30 },
-        { id: 'lines-sight-reading', label: 'Sight-read 4-5 short lines, steady tempo', time: '10 min', points: 20 }
-      ]
-    }
-    // You can add the remaining weeks 4-26 from the original artifact
-  };
-
-  // Teaching tips for each week
-  const weeklyTeachingTips = {
-    1: [
-      "Start each practice session with proper posture - feet flat, back straight, flute parallel to floor",
-      "Quality over quantity - 20 minutes of focused practice beats an hour of distracted playing",
-      "Record yourself daily to hear your progress objectively",
-      "Use a mirror to check your embouchure and posture"
-    ],
-    2: [
-      "The metronome is your best friend - start slow and gradually increase tempo",
-      "Practice breathing exercises away from the flute to build lung capacity",
-      "Focus on smooth connections between notes in scales",
-      "Don't rush - taking time now will save time later"
-    ],
-    3: [
-      "Practice difficult fingerings slowly and deliberately",
-      "Use a pencil to mark fingering patterns in your music",
-      "Break complex passages into 2-3 note groups",
-      "Your fingers should be curved and relaxed, not tense"
-    ]
-    // Additional tips would continue for all 26 weeks
-  };
 
   const getCurrentWeekTips = () => {
     return weeklyTeachingTips[currentWeek] || [
