@@ -411,19 +411,15 @@ const FluteChecklistApp = () => {
             }`}>
               <div className="space-y-3">
                 {/* Main checkbox and title */}
-                <div className="flex items-center">
-                  <button
-                    onClick={() => handleItemCheck(item.id)}
-                    className={`flex-shrink-0 w-7 h-7 rounded border-2 mr-4 flex items-center justify-center transition-all ${
-                      isItemChecked(item.id)
-                        ? 'bg-green-500 border-green-500 text-white'
-                        : 'bg-white border-gray-400 hover:border-green-500'
-                    }`}
-                    aria-label={`Mark ${item.label} as ${isItemChecked(item.id) ? 'incomplete' : 'complete'}`}
-                  >
-                    {isItemChecked(item.id) && <Check className="w-5 h-5 font-bold" />}
-                  </button>
-                  <div className="flex-grow">
+                <div className="flex items-start">
+                  <input
+                    type="checkbox"
+                    id={`checkbox-${item.id}`}
+                    checked={isItemChecked(item.id)}
+                    onChange={() => handleItemCheck(item.id)}
+                    className="mt-1 w-5 h-5 text-green-600 bg-white border-gray-300 rounded focus:ring-green-500 focus:ring-2 cursor-pointer"
+                  />
+                  <label htmlFor={`checkbox-${item.id}`} className="flex-grow ml-3 cursor-pointer">
                     <div className="flex items-center justify-between">
                       <span className={`font-medium ${
                         isItemChecked(item.id) ? 'text-green-700 line-through' : 'text-gray-800'
@@ -440,12 +436,12 @@ const FluteChecklistApp = () => {
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </label>
                 </div>
                 
                 {/* Tempo setting for applicable items */}
                 {item.tempoRange && (
-                  <div className="ml-10 flex items-center gap-4">
+                  <div className="ml-8 flex items-center gap-4">
                     <div className="flex items-center">
                       <Clock className="w-4 h-4 text-gray-500 mr-2" />
                       <label className="text-sm text-gray-700">Tempo (BPM):</label>
@@ -466,7 +462,7 @@ const FluteChecklistApp = () => {
                 )}
 
                 {/* Practice Timer */}
-                <div className="ml-10">
+                <div className="ml-8">
                   <PracticeTimer
                     recommendedMinutes={parseInt(item.time)}
                     itemId={item.id}
@@ -478,7 +474,7 @@ const FluteChecklistApp = () => {
 
                 {/* Practice tips */}
                 {item.tips && (
-                  <div className="ml-10">
+                  <div className="ml-8">
                     <div className="text-xs text-gray-600 mb-1 font-medium">💡 Practice Tips:</div>
                     <div className="flex flex-wrap gap-1">
                       {item.tips.map((tip, tipIndex) => (
@@ -491,7 +487,7 @@ const FluteChecklistApp = () => {
                 )}
 
                 {/* Practice notes */}
-                <div className="ml-10">
+                <div className="ml-8">
                   <textarea
                     placeholder="Practice notes: What went well? What to work on tomorrow?"
                     value={getItemNotes(item.id)}
