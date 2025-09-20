@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, CheckCircle2, Trophy, Lightbulb } from 'lucide-react';
+import { Music, Calendar, Award, RotateCcw, TrendingUp, Target, Star, CheckCircle2, Trophy, Lightbulb, ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
 import './App.css';
 import { weeklyPractice, weeklyTeachingTips } from './curriculumData';
 import InlineMetronome from './components/InlineMetronome';
@@ -35,6 +35,7 @@ const FluteChecklistApp = () => {
   });
 
   const [showTips, setShowTips] = useState(false);
+  const [viewingWeek, setViewingWeek] = useState(null); // null means viewing current week
 
   // Save to localStorage whenever state changes
   useEffect(() => {
@@ -70,8 +71,12 @@ const FluteChecklistApp = () => {
   const currentWeek = getCurrentWeek();
   const dayOfWeek = ((currentDay - 1) % 7) + 1; // 1-7 within the week
 
-  const getCurrentWeekTips = () => {
-    return weeklyTeachingTips[currentWeek] || [
+  // Use viewingWeek if set, otherwise use currentWeek
+  const displayWeek = viewingWeek || currentWeek;
+  const isViewingCurrentWeek = !viewingWeek || viewingWeek === currentWeek;
+
+  const getWeekTips = (week) => {
+    return weeklyTeachingTips[week] || [
       "Stay consistent with daily practice",
       "Listen to professional flutists for inspiration",
       "Record yourself to track progress",
@@ -104,6 +109,7 @@ const FluteChecklistApp = () => {
   };
 
   const currentPractice = weeklyPractice[currentWeek] || weeklyPractice[1]; // Fallback to week 1
+  const displayPractice = weeklyPractice[displayWeek] || weeklyPractice[1]; // Practice for viewing week
 
   const handleItemCheck = (itemId) => {
     const today = new Date().toDateString();
@@ -278,7 +284,7 @@ const FluteChecklistApp = () => {
   const encouragement = getDailyEncouragement(progress);
   const isSessionComplete = progress.completed === progress.total;
   const currentStreak = getPracticeStreak();
-  const weeklyTips = getCurrentWeekTips();
+  const weeklyTips = getWeekTips(displayWeek);
 
   useEffect(() => {
     if (isSessionComplete && !sessionCompleted) {
@@ -335,17 +341,71 @@ const FluteChecklistApp = () => {
           )}
         </div>
 
+        {/* Week Navigation */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => setViewingWeek(Math.max(1, (viewingWeek || currentWeek) - 1))}
+              disabled={displayWeek === 1}
+              className={`p-2 rounded-lg ${
+                displayWeek === 1
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'bg-white hover:bg-gray-100 text-gray-700 border border-gray-300'
+              }`}
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            <div className="text-center">
+              <h2 className="text-xl font-bold text-gray-800">
+                Week {displayWeek} of 26
+              </h2>
+              {!isViewingCurrentWeek && (
+                <p className="text-sm text-gray-500">
+                  (Currently on Week {currentWeek})
+                </p>
+              )}
+            </div>
+
+            <button
+              onClick={() => setViewingWeek(Math.min(26, (viewingWeek || currentWeek) + 1))}
+              disabled={displayWeek === 26}
+              className={`p-2 rounded-lg ${
+                displayWeek === 26
+                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'bg-white hover:bg-gray-100 text-gray-700 border border-gray-300'
+              }`}
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          {!isViewingCurrentWeek && (
+            <div className="flex justify-center">
+              <button
+                onClick={() => setViewingWeek(null)}
+                className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+              >
+                <CalendarDays className="w-4 h-4" />
+                Return to Today (Week {currentWeek})
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* Current Week Info */}
-        <div className="bg-indigo-50 rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-indigo-800 mb-2">{currentPractice.title}</h2>
-          <p className="text-indigo-700 mb-3"><strong>Focus:</strong> {currentPractice.focus}</p>
+        <div className={`rounded-lg p-6 mb-8 ${
+          isViewingCurrentWeek ? 'bg-indigo-50' : 'bg-gray-50 border-2 border-gray-200'
+        }`}>
+          <h2 className="text-2xl font-bold text-indigo-800 mb-2">{displayPractice.title}</h2>
+          <p className="text-indigo-700 mb-3"><strong>Focus:</strong> {displayPractice.focus}</p>
           <div className="flex items-start mb-3">
             <Award className="w-5 h-5 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
-            <p className="text-indigo-700"><strong>Milestone:</strong> {currentPractice.milestone}</p>
+            <p className="text-indigo-700"><strong>Milestone:</strong> {displayPractice.milestone}</p>
           </div>
           <div className="flex items-start">
             <Target className="w-5 h-5 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
-            <p className="text-indigo-700"><strong>This Week's Goal:</strong> {currentPractice.weeklyGoal}</p>
+            <p className="text-indigo-700"><strong>This Week's Goal:</strong> {displayPractice.weeklyGoal}</p>
           </div>
         </div>
 
@@ -405,31 +465,47 @@ const FluteChecklistApp = () => {
         {/* Practice Checklist */}
         <div className="space-y-4 mb-8">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-gray-800">Today's Practice Session</h3>
-            <button
-              onClick={resetDay}
-              className="flex items-center px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors"
-            >
-              <RotateCcw className="w-4 h-4 mr-1" />
-              Reset Day
-            </button>
+            <h3 className="text-xl font-semibold text-gray-800">
+              {isViewingCurrentWeek ? "Today's Practice Session" : `Week ${displayWeek} Practice Items`}
+            </h3>
+            {isViewingCurrentWeek && (
+              <button
+                onClick={resetDay}
+                className="flex items-center px-3 py-1 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                <RotateCcw className="w-4 h-4 mr-1" />
+                Reset Day
+              </button>
+            )}
           </div>
-          
-          {currentPractice.items.map((item, index) => (
+
+          {!isViewingCurrentWeek && (
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 mb-4">
+              <p className="text-sm text-yellow-800">
+                📚 Browsing Week {displayWeek} - Return to Week {currentWeek} to track today's practice
+              </p>
+            </div>
+          )}
+
+          {displayPractice.items.map((item, index) => (
             <div key={item.id} className={`rounded-lg p-4 transition-colors ${
               item.isMainFocus ? 'bg-blue-50 border-2 border-blue-200' : 'bg-gray-50 hover:bg-gray-100'
             }`}>
               <div className="space-y-3">
                 {/* Main checkbox and title */}
                 <div className="flex items-start">
-                  <input
-                    type="checkbox"
-                    id={`checkbox-${item.id}`}
-                    checked={isItemChecked(item.id)}
-                    onChange={() => handleItemCheck(item.id)}
-                    className="mt-1 w-5 h-5 text-green-600 bg-white border-gray-300 rounded focus:ring-green-500 focus:ring-2 cursor-pointer"
-                  />
-                  <label htmlFor={`checkbox-${item.id}`} className="flex-grow ml-3 cursor-pointer">
+                  {isViewingCurrentWeek ? (
+                    <input
+                      type="checkbox"
+                      id={`checkbox-${item.id}`}
+                      checked={isItemChecked(item.id)}
+                      onChange={() => handleItemCheck(item.id)}
+                      className="mt-1 w-5 h-5 text-green-600 bg-white border-gray-300 rounded focus:ring-green-500 focus:ring-2 cursor-pointer"
+                    />
+                  ) : (
+                    <div className="mt-1 w-5 h-5 bg-gray-200 border-gray-300 rounded" />
+                  )}
+                  <label htmlFor={`checkbox-${item.id}`} className={`flex-grow ml-3 ${isViewingCurrentWeek ? 'cursor-pointer' : ''}`}>
                     <div className="flex items-center justify-between">
                       <span className={`font-medium ${
                         isItemChecked(item.id) ? 'text-green-700 line-through' : 'text-gray-800'
@@ -448,31 +524,47 @@ const FluteChecklistApp = () => {
                     </div>
                   </label>
                 </div>
-                
-                {/* Inline Metronome for applicable items */}
-                {item.tempoRange && (
-                  <div className="ml-8">
-                    <InlineMetronome
-                      tempo={getItemTempo(item.id) || item.tempoRange.suggested}
-                      setTempo={(value) => handleTempoChange(item.id, value)}
-                      tempoRange={item.tempoRange}
-                      itemId={item.id}
-                    />
-                  </div>
+
+                {/* Only show interactive elements when viewing current week */}
+                {isViewingCurrentWeek && (
+                  <>
+                    {/* Inline Metronome for applicable items */}
+                    {item.tempoRange && (
+                      <div className="ml-8">
+                        <InlineMetronome
+                          tempo={getItemTempo(item.id) || item.tempoRange.suggested}
+                          setTempo={(value) => handleTempoChange(item.id, value)}
+                          tempoRange={item.tempoRange}
+                          itemId={item.id}
+                        />
+                      </div>
+                    )}
+
+                    {/* Practice Timer */}
+                    <div className="ml-8">
+                      <PracticeTimer
+                        recommendedMinutes={parseInt(item.time)}
+                        itemId={item.id}
+                        onTimeUpdate={(id, seconds) => {
+                          // Optional: handle time updates if needed
+                        }}
+                      />
+                    </div>
+
+                    {/* Practice notes */}
+                    <div className="ml-8">
+                      <textarea
+                        placeholder="Practice notes: What went well? What to work on tomorrow?"
+                        value={getItemNotes(item.id)}
+                        onChange={(e) => handleNotesChange(item.id, e.target.value)}
+                        className="w-full text-sm border border-gray-200 rounded p-2 resize-none"
+                        rows="2"
+                      />
+                    </div>
+                  </>
                 )}
 
-                {/* Practice Timer */}
-                <div className="ml-8">
-                  <PracticeTimer
-                    recommendedMinutes={parseInt(item.time)}
-                    itemId={item.id}
-                    onTimeUpdate={(id, seconds) => {
-                      // Optional: handle time updates if needed
-                    }}
-                  />
-                </div>
-
-                {/* Practice tips */}
+                {/* Practice tips - always show */}
                 {item.tips && (
                   <div className="ml-8">
                     <div className="text-xs text-gray-600 mb-1 font-medium">💡 Practice Tips:</div>
@@ -485,17 +577,6 @@ const FluteChecklistApp = () => {
                     </div>
                   </div>
                 )}
-
-                {/* Practice notes */}
-                <div className="ml-8">
-                  <textarea
-                    placeholder="Practice notes: What went well? What to work on tomorrow?"
-                    value={getItemNotes(item.id)}
-                    onChange={(e) => handleNotesChange(item.id, e.target.value)}
-                    className="w-full text-sm border border-gray-200 rounded p-2 resize-none"
-                    rows="2"
-                  />
-                </div>
               </div>
             </div>
           ))}
