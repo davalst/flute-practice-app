@@ -1,14 +1,16 @@
 /* eslint-disable no-restricted-globals */
 
 // Service Worker for Flute Practice Tracker PWA
-const CACHE_NAME = 'flute-practice-v1';
+const CACHE_NAME = 'flute-practice-v2'; // Increment version to force cache update
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/favicon.ico',
   '/logo192.png',
-  '/logo512.png'
+  '/logo512.png',
+  '/apple-touch-icon.png',
+  '/flute-icon.svg'
 ];
 
 // Install event - cache all static assets
