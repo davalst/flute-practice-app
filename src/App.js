@@ -36,6 +36,7 @@ const FluteChecklistApp = () => {
 
   const [showTips, setShowTips] = useState(false);
   const [viewingWeek, setViewingWeek] = useState(null); // null means viewing current week
+  const [notesSaving, setNotesSaving] = useState({});
 
   // Save to localStorage whenever state changes
   useEffect(() => {
@@ -124,11 +125,32 @@ const FluteChecklistApp = () => {
   const handleNotesChange = (itemId, notes) => {
     const today = new Date().toDateString();
     const key = `${today}-${itemId}`;
-    
-    setPracticeNotes(prev => ({
-      ...prev,
-      [key]: notes
-    }));
+
+    // Show saving indicator
+    setNotesSaving(prev => ({ ...prev, [itemId]: true }));
+
+    setPracticeNotes(prev => {
+      const newNotes = {
+        ...prev,
+        [key]: notes
+      };
+      // Immediately save to localStorage for better persistence
+      try {
+        localStorage.setItem('fluteApp_practiceNotes', JSON.stringify(newNotes));
+        // Hide saving indicator after short delay
+        setTimeout(() => {
+          setNotesSaving(prev => ({ ...prev, [itemId]: false }));
+        }, 500);
+      } catch (error) {
+        console.error('Failed to save practice notes:', error);
+        // Show error state
+        setNotesSaving(prev => ({ ...prev, [itemId]: 'error' }));
+        setTimeout(() => {
+          setNotesSaving(prev => ({ ...prev, [itemId]: false }));
+        }, 2000);
+      }
+      return newNotes;
+    });
   };
 
   const handleTempoChange = (itemId, tempo) => {
@@ -558,13 +580,23 @@ const FluteChecklistApp = () => {
 
                     {/* Practice notes */}
                     <div className="ml-8">
-                      <textarea
-                        placeholder="Practice notes: What went well? What to work on tomorrow?"
-                        value={getItemNotes(item.id)}
-                        onChange={(e) => handleNotesChange(item.id, e.target.value)}
-                        className="w-full text-sm border border-gray-200 rounded p-2 resize-none"
-                        rows="2"
-                      />
+                      <div className="relative">
+                        <textarea
+                          placeholder="Practice notes: What went well? What to work on tomorrow?"
+                          value={getItemNotes(item.id)}
+                          onChange={(e) => handleNotesChange(item.id, e.target.value)}
+                          onBlur={(e) => handleNotesChange(item.id, e.target.value)}
+                          className="w-full text-sm border border-gray-200 rounded p-2 resize-none pr-16"
+                          rows="2"
+                        />
+                        {notesSaving[item.id] && (
+                          <span className={`absolute top-2 right-2 text-xs ${
+                            notesSaving[item.id] === 'error' ? 'text-red-600' : 'text-green-600'
+                          }`}>
+                            {notesSaving[item.id] === 'error' ? '❌ Error' : '✓ Saved'}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </>
                 )}
