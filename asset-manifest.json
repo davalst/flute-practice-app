@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/flute-practice-app/static/css/main.83ba2c8e.css",
+    "main.js": "/flute-practice-app/static/js/main.9ef9c4ec.js",
+    "static/js/453.aa1297fc.chunk.js": "/flute-practice-app/static/js/453.aa1297fc.chunk.js",
+    "index.html": "/flute-practice-app/index.html",
+    "main.83ba2c8e.css.map": "/flute-practice-app/static/css/main.83ba2c8e.css.map",
+    "main.9ef9c4ec.js.map": "/flute-practice-app/static/js/main.9ef9c4ec.js.map",
+    "453.aa1297fc.chunk.js.map": "/flute-practice-app/static/js/453.aa1297fc.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.83ba2c8e.css",
+    "static/js/main.9ef9c4ec.js"
+  ]
+}
