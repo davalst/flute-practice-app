@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 20px;
+            background: #f3f4f6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #5558e3;
+        }
+        .icon-preview {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+            background: #f9fafb;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .icon-preview canvas {
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+        }
+        h1 {
+            color: #1f2937;
+        }
+        .instructions {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Flute Practice App - Icon Generator</h1>
+
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>Click "Generate All Icons" below</li>
+                <li>Right-click each canvas and "Save Image As..."</li>
+                <li>Save with the filename shown (e.g., icon-192.png)</li>
+                <li>Save all files to the public folder</li>
+                <li>Replace the existing logo192.png and logo512.png</li>
+            </ol>
+        </div>
+
+        <button onclick="generateAllIcons()">Generate All Icons</button>
+
+        <div id="icons"></div>
+    </div>
+
+    <script>
+        const svgString = `<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background circle -->
+          <circle cx="256" cy="256" r="240" fill="url(#gradient)" stroke="#ffffff" stroke-width="16"/>
+
+          <!-- Gradient definition -->
+          <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+            </linearGradient>
+            <filter id="shadow">
+              <feDropShadow dx="4" dy="6" stdDeviation="4" flood-opacity="0.25"/>
+            </filter>
+            <filter id="shadowLight">
+              <feDropShadow dx="2" dy="3" stdDeviation="2" flood-opacity="0.15"/>
+            </filter>
+          </defs>
+
+          <!-- Large vertical flute section (right side) -->
+          <g filter="url(#shadow)">
+            <!-- Main flute body -->
+            <rect x="320" y="50" width="120" height="412" rx="60" fill="#ffffff"/>
+
+            <!-- Silver joint rings -->
+            <rect x="320" y="140" width="120" height="12" fill="#e5e7eb"/>
+            <rect x="320" y="280" width="120" height="12" fill="#e5e7eb"/>
+            <rect x="320" y="380" width="120" height="12" fill="#e5e7eb"/>
+
+            <!-- Large tone holes -->
+            <ellipse cx="380" cy="190" rx="28" ry="20" fill="#d1d5db"/>
+            <ellipse cx="380" cy="250" rx="28" ry="20" fill="#d1d5db"/>
+            <ellipse cx="380" cy="330" rx="28" ry="20" fill="#d1d5db"/>
+
+            <!-- Key mechanisms -->
+            <rect x="345" y="185" width="70" height="10" rx="5" fill="#9ca3af"/>
+            <rect x="345" y="245" width="70" height="10" rx="5" fill="#9ca3af"/>
+            <rect x="345" y="325" width="70" height="10" rx="5" fill="#9ca3af"/>
+
+            <!-- Key pads (circles on the mechanisms) -->
+            <circle cx="380" cy="190" r="18" fill="#f3f4f6" opacity="0.8"/>
+            <circle cx="380" cy="250" r="18" fill="#f3f4f6" opacity="0.8"/>
+            <circle cx="380" cy="330" r="18" fill="#f3f4f6" opacity="0.8"/>
+          </g>
+
+          <!-- Large musical note (left side) -->
+          <g filter="url(#shadowLight)">
+            <text x="100" y="320" font-family="Georgia, serif" font-size="200" fill="#ffffff" font-weight="bold">♪</text>
+          </g>
+        </svg>`;
+
+        const sizes = [
+            { size: 192, name: 'icon-192.png', replace: 'logo192.png' },
+            { size: 512, name: 'icon-512.png', replace: 'logo512.png' },
+            { size: 180, name: 'apple-touch-icon.png', replace: null },
+            { size: 32, name: 'favicon-32.png', replace: null },
+            { size: 16, name: 'favicon-16.png', replace: null }
+        ];
+
+        function generateIcon(size, name, replaceFile) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            const img = new Image();
+            const svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(svgBlob);
+
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, size, size);
+                URL.revokeObjectURL(url);
+
+                const div = document.createElement('div');
+                div.className = 'icon-preview';
+                div.innerHTML = `
+                    <h4>Save as: ${replaceFile || name}</h4>
+                    <p>${size}x${size}px</p>
+                `;
+                div.appendChild(canvas);
+                document.getElementById('icons').appendChild(div);
+
+                // Create download link
+                canvas.toBlob(function(blob) {
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = replaceFile || name;
+                    const button = document.createElement('button');
+                    button.textContent = `Download ${replaceFile || name}`;
+                    button.onclick = () => a.click();
+                    div.appendChild(button);
+                }, 'image/png');
+            };
+
+            img.src = url;
+        }
+
+        function generateAllIcons() {
+            document.getElementById('icons').innerHTML = '';
+            sizes.forEach(({ size, name, replace }) => {
+                generateIcon(size, name, replace);
+            });
+        }
+
+        // Auto-generate on load
+        window.onload = () => generateAllIcons();
+    </script>
+</body>
+</html>
